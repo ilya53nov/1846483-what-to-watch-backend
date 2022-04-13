@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
 * Студент: [Илья Хицков](https://up.htmlacademy.ru/nodejs-api/1/user/1846483).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Думчев](https://htmlacademy.ru/profile/nikopol-fw).
 
 ---
 
