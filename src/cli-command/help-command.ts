@@ -1,8 +1,10 @@
 import chalk from 'chalk';
+import { COMMAND_START_SYMBOL } from '../const.js';
+import { Command } from '../types/command.enum.js';
 import { CliCommandInterface } from './cli-command.interface.js';
 
 export default class HelpCommand implements CliCommandInterface {
-  public readonly name = '--help';
+  public readonly name = `${COMMAND_START_SYMBOL}${Command.Help}`;
 
   public async execute(): Promise<void> {
     console.log(`
