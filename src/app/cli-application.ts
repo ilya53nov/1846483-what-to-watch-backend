@@ -1,4 +1,6 @@
 import { CliCommandInterface } from '../cli-command/cli-command.interface.js';
+import { COMMAND_START_SYMBOL } from '../const.js';
+import { Command } from '../types/command.enum.js';
 
 type ParsedCommand = {
   [key: string]: string[];
@@ -6,14 +8,14 @@ type ParsedCommand = {
 
 export default class CLIApplication {
   private commands: {[propertyName: string]: CliCommandInterface} = {};
-  private defaultCommand = '--help';
+  private defaultCommand = `${COMMAND_START_SYMBOL}${Command.Help}`;
 
   private parseCommand(cliArguments: string[]): ParsedCommand {
     const parsedCommand: ParsedCommand = {};
     let command = '';
 
     return cliArguments.reduce((acc, item) => {
-      if (item.startsWith('--')) {
+      if (item.startsWith(COMMAND_START_SYMBOL)) {
         acc[item] = [];
         command = item;
       } else if (command && item) {
@@ -25,8 +27,8 @@ export default class CLIApplication {
   }
 
   public registerCommands(commandList: CliCommandInterface[]): void {
-    this.commands = commandList.reduce((acc, Command) => {
-      const cliCommand = Command;
+    this.commands = commandList.reduce((acc, command) => {
+      const cliCommand = command;
 
       acc[cliCommand.name] = cliCommand;
 
