@@ -1,22 +1,33 @@
+import { EmitEvent } from '../common/file-reader/emit-event.enum.js';
 import TSVFileReader from '../common/file-reader/tsv-file-reader.js';
+import { COMMAND_START_SYMBOL } from '../const.js';
+import { Command } from '../types/command.enum.js';
+import { createCard, getErrorMessage } from '../utils/common.js';
 import { CliCommandInterface } from './cli-command.interface.js';
 
 export default class ImportCommand implements CliCommandInterface {
-  public readonly name = '--import';
+  public readonly name = `${COMMAND_START_SYMBOL}${Command.Import}`;
 
-  public execute(filepath: string): void {
+  private onLine(line: string) {
+    const card = createCard(line);
+
+    console.log(card);
+  }
+
+  private onComplete(count: number) {
+    console.log(`${count} rows imported.`);
+  }
+
+  public async execute(filepath: string): Promise<void> {
     const fileReader = new TSVFileReader(filepath.trim());
 
+    fileReader.on(EmitEvent.Line, this.onLine);
+    fileReader.on(EmitEvent.End, this.onComplete);
+
     try {
-      fileReader.read();
-      console.log(fileReader.toArray());
+      await fileReader.read();
     } catch (err) {
-
-      if (!(err instanceof Error)) {
-        throw err;
-      }
-
-      console.log(`Не удалось импортировать данные из файла по причине: «${err.message}»`);
+      console.log(`Can't read the file: ${getErrorMessage(err)}`);
     }
   }
 }

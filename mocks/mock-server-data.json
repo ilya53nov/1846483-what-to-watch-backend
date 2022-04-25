@@ -1,145 +1,141 @@
 {
   "api": {
-    "films": {
-      "titles": [
-        "Человек-паук: Нет пути домой",
-        "Побег из Шоушенка",
-        "Тёмный рыцарь",
-        "Список Шиндлера",
-        "Властелин колец: Возвращение короля"
-      ],
-      "descriptions": [
-        "Жизнь и репутация Питера Паркера оказываются под угрозой, поскольку Мистерио раскрыл всему миру тайну личности Человека-паука. Пытаясь исправить ситуацию, Питер обращается за помощью к Стивену Стрэнджу, но вскоре всё становится намного опаснее.",
-        "Американский художественный фильм-драма 1994 года, снятый режиссёром Фрэнком Дарабонтом по его же сценарию, и рассказывающий историю Энди Дюфрейна, незаслуженно приговорённого к пожизненному заключению и пробывшего в заключении почти 20 лет. Основой сюжета послужила повесть Стивена Кинга «Рита Хейуорт и спасение из Шоушенка». Главные роли сыграли Тим Роббинс и Морган Фримен.",
-        "Супергеройский боевик с элементами неонуара режиссёра Кристофера Нолана. Вторая часть новой трилогии о Бэтмене. Главные роли в фильме исполнили Кристиан Бейл и Хит Леджер (соответственно, Бэтмена и его заклятого врага Джокера). Фильм вышел на экраны в США 18 июля 2008 года (в российский прокат 14 августа).",
-        "Американский художественный фильм в жанре исторической драмы, поставленный в 1993 году режиссёром Стивеном Спилбергом по роману Томаса Кенилли «Ковчег Шиндлера»ruen, повествующем о немецком бизнесмене и члене НСДАП Оскаре Шиндлере, спасшем более тысячи польских евреев от гибели во время Холокоста[3].",
-        "В мировом прокате фильм собрал более 1,1 миллиарда долларов[1][2], став вторым фильмом в истории после «Титаника», которому покорился миллиардный рубеж кассовых сборов. На данный момент (март 2021 года) фильм занимает 24 место в списке самых кассовых фильмов за всю историю кинематографа[3]. Фильм получил 11 премий «Оскар» (чем повторил рекорд «Бен-Гура» и «Титаника»), и стал первой картиной в жанре фэнтези, названной Киноакадемией «Лучшим фильмом года»[4]"
-      ],
-      "publicationDates": [
-        "2022-04-14T08:45:40.283Z",
-        "2022-04-13T08:45:40.283Z",
-        "2022-04-12T08:45:40.283Z",
-        "2022-04-11T08:45:40.283Z",
-        "2022-04-10T08:45:40.283Z"
-      ],
-      "genres": [
-        "comedy",
-        "crime",
-        "documentary",
-        "drama",
-        "horror",
-        "family",
-        "romance",
-        "scifi",
-        "thriller"
-      ],
-      "years": [
-        "2022",
-        "2021",
-        "2020",
-        "2019",
-        "2018"
-      ],
-      "ratings": [
-        "10",
-        "9",
-        "8",
-        "7",
-        "6"
-      ],
-      "previewVideoLinks": [
-        "https://filmatik.ru/uploads/movie/136759/backdrop/original/6MQmtWk4cFwSDyNvIgoJRBIHUT3.jpg",
-        "https://regnum.ru/uploads/pictures/news/2019/09/22/regnum_picture_1569168919518300_normal.jpg",
-        "https://i03.fotocdn.net/s127/9bcf3c5e84787883/public_pin_l/2881567021.jpg",
-        "https://www.film.ru/sites/default/files/images/schindler-s-list-013.jpg",
-        "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg"
-      ],
-      "videoLinks": [
-        "https://filmatik.ru/uploads/movie/136759/backdrop/original/6MQmtWk4cFwSDyNvIgoJRBIHUT3.jpg",
-        "https://regnum.ru/uploads/pictures/news/2019/09/22/regnum_picture_1569168919518300_normal.jpg",
-        "https://i03.fotocdn.net/s127/9bcf3c5e84787883/public_pin_l/2881567021.jpg",
-        "https://www.film.ru/sites/default/files/images/schindler-s-list-013.jpg",
-        "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg"
-      ],
-      "actors": [
-        "Евгения Брик",
-        "Джейсон Стэйтем",
-        "Том Харди",
-        "Джеки Чан",
-        "Уилл Смит"
-      ],
-      "directors": [
-        "Стивен Аллан Спилберг",
-        "Мартин Чарльз Скорсезе",
-        "Стэнли Кубрик",
-        "Фрэнсис Форд Коппола",
-        "Вуди Аллен"
-      ],
-      "runTimes": [
-        "160",
-        "150",
-        "140",
-        "130",
-        "120"
-      ],
-      "commentsCount": [
-        "5",
-        "4",
-        "3",
-        "2",
-        "1"
-      ],
-      "users": {
-        "names": [
-          "Андрей",
-          "Игнат",
-          "Владимир",
-          "Кирилл",
-          "Василий"
-        ],
-        "emails": [
-          "1@mail.ru",
-          "2@mail.ru",
-          "3@mail.ru",
-          "4@mail.ru",
-          "5@mail.ru"
-        ],
-        "avatars": [
-          "https://pixelbox.ru/wp-content/uploads/2020/12/ava-vk-cats-92.jpg",
-          "https://games.mail.ru/hotbox/content_files/gallery/2020/12/11/d49a024e7ade40858a10df3b8976625d.png",
-          "https://pixelbox.ru/wp-content/uploads/2021/02/youtube-avatar-anime-48.jpg",
-          "https://placepic.ru/wp-content/uploads/2019/02/348235-1.jpg",
-          "https://drasler.ru/wp-content/uploads/2019/05/Аватарка-для-ютуба-майнкрафт-фото-005.jpg"
-        ],
-        "passwords": [
-          "123456",
-          "123456",
-          "123456",
-          "123456",
-          "123456"
-        ]
-      },
-      "posters": [
-        "https://filmatik.ru/uploads/movie/136759/backdrop/original/6MQmtWk4cFwSDyNvIgoJRBIHUT3.jpg",
-        "https://regnum.ru/uploads/pictures/news/2019/09/22/regnum_picture_1569168919518300_normal.jpg",
-        "https://i03.fotocdn.net/s127/9bcf3c5e84787883/public_pin_l/2881567021.jpg",
-        "https://www.film.ru/sites/default/files/images/schindler-s-list-013.jpg",
-        "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg"
-      ],
-      "backgroundImages": [
-        "https://filmatik.ru/uploads/movie/136759/backdrop/original/6MQmtWk4cFwSDyNvIgoJRBIHUT3.jpg",
-        "https://regnum.ru/uploads/pictures/news/2019/09/22/regnum_picture_1569168919518300_normal.jpg",
-        "https://i03.fotocdn.net/s127/9bcf3c5e84787883/public_pin_l/2881567021.jpg",
-        "https://www.film.ru/sites/default/files/images/schindler-s-list-013.jpg",
-        "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg"
-      ],
-      "backgroundColors": [
-        "#00ff00",
-        "#01ff03",
-        "#02ff02",
-        "#03ff01",
-        "#04ff00"
-      ]
-    }
+    "titles": [
+      "Человек-паук: Нет пути домой",
+      "Побег из Шоушенка",
+      "Тёмный рыцарь",
+      "Список Шиндлера",
+      "Властелин колец: Возвращение короля"
+    ],
+    "descriptions": [
+      "Жизнь и репутация Питера Паркера оказываются под угрозой, поскольку Мистерио раскрыл всему миру тайну личности Человека-паука. Пытаясь исправить ситуацию, Питер обращается за помощью к Стивену Стрэнджу, но вскоре всё становится намного опаснее.",
+      "Американский художественный фильм-драма 1994 года, снятый режиссёром Фрэнком Дарабонтом по его же сценарию, и рассказывающий историю Энди Дюфрейна, незаслуженно приговорённого к пожизненному заключению и пробывшего в заключении почти 20 лет. Основой сюжета послужила повесть Стивена Кинга «Рита Хейуорт и спасение из Шоушенка». Главные роли сыграли Тим Роббинс и Морган Фримен.",
+      "Супергеройский боевик с элементами неонуара режиссёра Кристофера Нолана. Вторая часть новой трилогии о Бэтмене. Главные роли в фильме исполнили Кристиан Бейл и Хит Леджер (соответственно, Бэтмена и его заклятого врага Джокера). Фильм вышел на экраны в США 18 июля 2008 года (в российский прокат 14 августа).",
+      "Американский художественный фильм в жанре исторической драмы, поставленный в 1993 году режиссёром Стивеном Спилбергом по роману Томаса Кенилли «Ковчег Шиндлера»ruen, повествующем о немецком бизнесмене и члене НСДАП Оскаре Шиндлере, спасшем более тысячи польских евреев от гибели во время Холокоста[3].",
+      "В мировом прокате фильм собрал более 1,1 миллиарда долларов[1][2], став вторым фильмом в истории после «Титаника», которому покорился миллиардный рубеж кассовых сборов. На данный момент (март 2021 года) фильм занимает 24 место в списке самых кассовых фильмов за всю историю кинематографа[3]. Фильм получил 11 премий «Оскар» (чем повторил рекорд «Бен-Гура» и «Титаника»), и стал первой картиной в жанре фэнтези, названной Киноакадемией «Лучшим фильмом года»[4]"
+    ],
+    "publicationDates": [
+      "2022-04-14T08:45:40.283Z",
+      "2022-04-13T08:45:40.283Z",
+      "2022-04-12T08:45:40.283Z",
+      "2022-04-11T08:45:40.283Z",
+      "2022-04-10T08:45:40.283Z"
+    ],
+    "genres": [
+      "comedy",
+      "crime",
+      "documentary",
+      "drama",
+      "horror",
+      "family",
+      "romance",
+      "scifi",
+      "thriller"
+    ],
+    "years": [
+      "2022",
+      "2021",
+      "2020",
+      "2019",
+      "2018"
+    ],
+    "ratings": [
+      "10",
+      "9",
+      "8",
+      "7",
+      "6"
+    ],
+    "previewVideoLinks": [
+      "https://filmatik.ru/uploads/movie/136759/backdrop/original/6MQmtWk4cFwSDyNvIgoJRBIHUT3.jpg",
+      "https://regnum.ru/uploads/pictures/news/2019/09/22/regnum_picture_1569168919518300_normal.jpg",
+      "https://i03.fotocdn.net/s127/9bcf3c5e84787883/public_pin_l/2881567021.jpg",
+      "https://www.film.ru/sites/default/files/images/schindler-s-list-013.jpg",
+      "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg"
+    ],
+    "videoLinks": [
+      "https://filmatik.ru/uploads/movie/136759/backdrop/original/6MQmtWk4cFwSDyNvIgoJRBIHUT3.jpg",
+      "https://regnum.ru/uploads/pictures/news/2019/09/22/regnum_picture_1569168919518300_normal.jpg",
+      "https://i03.fotocdn.net/s127/9bcf3c5e84787883/public_pin_l/2881567021.jpg",
+      "https://www.film.ru/sites/default/files/images/schindler-s-list-013.jpg",
+      "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg"
+    ],
+    "actors": [
+      "Евгения Брик",
+      "Джейсон Стэйтем",
+      "Том Харди",
+      "Джеки Чан",
+      "Уилл Смит"
+    ],
+    "directors": [
+      "Стивен Аллан Спилберг",
+      "Мартин Чарльз Скорсезе",
+      "Стэнли Кубрик",
+      "Фрэнсис Форд Коппола",
+      "Вуди Аллен"
+    ],
+    "runTimes": [
+      "160",
+      "150",
+      "140",
+      "130",
+      "120"
+    ],
+    "commentsCount": [
+      "5",
+      "4",
+      "3",
+      "2",
+      "1"
+    ],
+    "names": [
+      "Андрей",
+      "Игнат",
+      "Владимир",
+      "Кирилл",
+      "Василий"
+    ],
+    "emails": [
+      "1@mail.ru",
+      "2@mail.ru",
+      "3@mail.ru",
+      "4@mail.ru",
+      "5@mail.ru"
+    ],
+    "avatars": [
+      "https://pixelbox.ru/wp-content/uploads/2020/12/ava-vk-cats-92.jpg",
+      "https://games.mail.ru/hotbox/content_files/gallery/2020/12/11/d49a024e7ade40858a10df3b8976625d.png",
+      "https://pixelbox.ru/wp-content/uploads/2021/02/youtube-avatar-anime-48.jpg",
+      "https://placepic.ru/wp-content/uploads/2019/02/348235-1.jpg",
+      "https://drasler.ru/wp-content/uploads/2019/05/Аватарка-для-ютуба-майнкрафт-фото-005.jpg"
+    ],
+    "passwords": [
+      "123456",
+      "123456",
+      "123456",
+      "123456",
+      "123456"
+    ],
+    "posterImages": [
+      "https://filmatik.ru/uploads/movie/136759/backdrop/original/6MQmtWk4cFwSDyNvIgoJRBIHUT3.jpg",
+      "https://regnum.ru/uploads/pictures/news/2019/09/22/regnum_picture_1569168919518300_normal.jpg",
+      "https://i03.fotocdn.net/s127/9bcf3c5e84787883/public_pin_l/2881567021.jpg",
+      "https://www.film.ru/sites/default/files/images/schindler-s-list-013.jpg",
+      "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg"
+    ],
+    "backgroundImages": [
+      "https://filmatik.ru/uploads/movie/136759/backdrop/original/6MQmtWk4cFwSDyNvIgoJRBIHUT3.jpg",
+      "https://regnum.ru/uploads/pictures/news/2019/09/22/regnum_picture_1569168919518300_normal.jpg",
+      "https://i03.fotocdn.net/s127/9bcf3c5e84787883/public_pin_l/2881567021.jpg",
+      "https://www.film.ru/sites/default/files/images/schindler-s-list-013.jpg",
+      "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg"
+    ],
+    "backgroundColors": [
+      "#00ff00",
+      "#01ff03",
+      "#02ff02",
+      "#03ff01",
+      "#04ff00"
+    ]
   }
 }

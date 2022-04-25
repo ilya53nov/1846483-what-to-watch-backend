@@ -1,4 +1,4 @@
-export enum FilmGenre {
+export enum Genre {
   Comedy = 'Comedy',
   Crime = 'Crime',
   Documentary = 'Documentary',
