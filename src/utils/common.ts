@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { LINE_BREAK_CHARACTER, TAB_CHARACTER } from '../const.js';
 import { Film } from '../types/film.type.js';
 import { Genre } from '../types/genre.enum.js';
@@ -50,3 +51,9 @@ export const createCard = (row: string) => {
 };
 
 export const getErrorMessage = (error: unknown): string => error instanceof Error ? error.message : '';
+
+export const createSHA256 = (line: string, salt: string): string => {
+  const shaHasher = crypto.createHmac('sha256', salt);
+
+  return shaHasher.update(line).digest('hex');
+};
