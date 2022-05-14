@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {inject, injectable} from 'inversify';
+import { inject, injectable}  from 'inversify';
 import { config } from 'dotenv';
 import { LoggerInterface } from '../logger/logger.interface.js';
 import { ConfigInterface } from './config.interface.js';

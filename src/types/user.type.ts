@@ -3,4 +3,4 @@ export type User = {
   email: string;
   avatarPath: string;
   password: string;
-}
+};
