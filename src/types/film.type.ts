@@ -13,7 +13,7 @@ export type Film = {
   actors: string[];
   director: string;
   runTime: number;
-  commentsCount: number;
+  commentCount: number;
   user: User;
   posterImage: string;
   backgroundImage: string;

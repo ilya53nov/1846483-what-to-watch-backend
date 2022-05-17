@@ -31,7 +31,7 @@ export class FilmEntity extends TimeStamps implements Film {
     this.actors = data.actors;
     this.director = data.director;
     this.runTime = data.runTime;
-    this.commentsCount = data.commentsCount;
+    this.commentCount = data.commentCount;
     this.user = data.user;
     this.posterImage = data.posterImage;
     this.backgroundImage = data.backgroundImage;
@@ -71,8 +71,8 @@ export class FilmEntity extends TimeStamps implements Film {
   @prop(FilmValidation.runTime)
   public runTime!: number;
 
-  @prop(FilmValidation.commentsCount)
-  public commentsCount!: number;
+  @prop(FilmValidation.commentCount)
+  public commentCount!: number;
 
   @prop(FilmValidation.user)
   public user!: User;

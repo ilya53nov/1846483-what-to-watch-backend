@@ -74,7 +74,7 @@ const backgroundColor: ValidationInterface = {
   required: true,
 };
 
-const commentsCount: ValidationInterface = {
+const commentCount: ValidationInterface = {
   default: 0,
 };
 
@@ -94,5 +94,5 @@ export const FilmValidation = {
   posterImage,
   backgroundImage,
   backgroundColor,
-  commentsCount,
+  commentCount,
 };
