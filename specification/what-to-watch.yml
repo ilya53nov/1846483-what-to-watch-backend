@@ -1,0 +1,483 @@
+openapi: 3.0.0
+info:
+  title: REST API сервер для демо проекта «Что посмотреть».
+  description: |-
+    * Список ресурсов и маршрутов сервера «Что посмотреть».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+tags:
+  - name: film
+    description: Действия с фильмами.
+  - name: comment
+    description: Действия с комментариями.
+  - name: user
+    description: Действия с пользователем.
+paths: 
+  /films/:
+    post:
+      tags:
+        - film
+      summary: Добавить новую карточку с фильмом
+      description: Добавление новой карточки с фильмом.
+      operationId: createFilm
+      requestBody:
+        description: Объект с новой карточкой фильма
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFilm'
+        required: true
+      responses:
+        '201':
+          description: Добавлена новая карточка с фильмом
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Film'
+        '400':
+          description: Ошибка тела запроса
+          content: {}
+        '404':
+          description: Фильм не найден
+          content: {}
+    get:
+      tags:
+        - film
+      summary: Получить список фильмов
+      description: Получение списка фильмов.
+      operationId: getFilms
+      responses:
+        '200':
+          description: Список фильмов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryFilm'
+  /films/{genre}:
+    get:
+      tags:
+        - film
+      summary: Получить список фильмов определённого жанра
+      description: Получение списка фильмов определённого жанра `genre`.
+      operationId: getFilmsByGenre
+      parameters:
+        - name: genre
+          in: path
+          description: Жанр фильма
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/CreateFilm/properties/genre'
+      responses:
+        '200':
+          description: Список фильмов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryFilm'
+  /favorite:
+    get:
+      tags:
+        - film
+      summary: Получить список фильмов "К просмотру"
+      description: Получить список фильмов "К просмотру"
+      operationId: getFavoriteFilms
+      responses:
+        '200':
+          description: Список фильмов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryFilm'
+  /favorite/{filmId}:
+    post:
+      tags:
+        - film
+      summary: Добавить фильм "К просмотру"
+      description: Добавить фильм с идентификатором `filmId` к списку "К просмотру".
+      operationId: addFavoriteFilmById
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: string
+            example: f17c1
+      responses:
+        '200':
+          description: Фильм добавлен к списку "К просмотру"
+          content: {}
+        '404':
+          description: Фильм не найден
+          content: {}
+    delete:
+      tags:
+        - film
+      summary: Удалить фильм из списка "К просмотру"
+      description: Удаление фильма с идентификатором `filmId` из списка "К просмотру".
+      operationId: deleteFavoriteFilmById
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: string
+            example: f17c1
+      responses:
+        '200':
+          description: Фильм удалён из списка "К просмотру"
+          content: {}
+        '404':
+          description: Фильм не найден
+          content: {}       
+  /films/promo:
+    get:
+      tags:
+        - film
+      summary: Получить промо-фильм
+      description: Получение промо-фильма.
+      operationId: getPromoFilm
+      responses:
+        '200':
+          description: Промо фильм
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFilm'
+        '404':
+          description: Промо фильм не найден
+          content: {}        
+  /films/{filmId}:
+    put:
+      tags:
+        - film
+      summary: Редактировать карточку фильма
+      description: Редактирование карточки фильма с идентификатором `filmId`.
+      operationId: updateFilmById
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: string
+            example: f17c1
+      requestBody:
+        description: Объект с изменённым фильмом.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFilm'
+        required: true
+      responses:
+        '200':
+          description: Объект фильма
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        '404':
+          description: Фильм не найден
+          content: {}
+    delete:
+      tags:
+        - film
+      summary: Удалить карточку фильма
+      description: Удаление карточки фильма с идентификатором `filmId`.
+      operationId: deleteFilmById
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: string
+            example: f17c1
+      responses:
+        '200':
+          description: Карточка фильма удалена
+          content: {}
+        '404':
+          description: Фильм не найден
+          content: {}
+    get:
+      tags:
+        - film
+      summary: Получить детальную информацию по фильму
+      description: Получение детальной информации по фильму с идентификатором `filmId`.
+      operationId: getFilmById
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: string
+            example: f17c1
+      responses:
+        '200':
+          description: Объект фильма
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        '404':
+          description: Фильм не найден
+          content: {}
+  /films/{filmId}/comments:
+    get:
+      tags:
+        - comment
+      summary: Получить список комментариев
+      description: Возвращает список комментариев для фильма с идентификатором `filmId`.
+      operationId: getComment
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: string
+            example: f17c1
+      responses:
+        '200':
+          description: Массив комментариев
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '404':
+          description: Фильм не найден
+          content: {}
+    post:
+      tags:
+        - comment
+      summary: Добавить новый комментарий
+      description: Добавляет новый комментарий для фильма с идентификатором `filmId`.
+      operationId: postComment
+      parameters:
+        - name: filmId
+          in: path
+          description: Уникальный идентификатор фильма
+          required: true
+          schema:
+            type: string
+            example: f17c1
+      requestBody:
+        description: Объект с новым комментарием
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateComment'
+        required: true
+      responses:
+        '201':
+          description: Новый комментарий
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '400':
+          description: Ошибка тела запроса
+          content: {}
+        '404':
+          description: Фильм не найден
+          content: {}        
+  /users/register:
+    post:
+      tags:
+        - user
+      summary: Создать нового пользователя
+      description: Создает нового пользователя.
+      operationId: registerUser
+      requestBody:
+        description: Объект, содержащий данные пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUser'
+        required: true
+      responses:
+        '200':
+          description: Статус авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationInfo'
+        '400':
+          description: Ошибка тела запроса
+          content: {}
+        '409':
+          description: Пользователь с таким email существует
+          content: {}                  
+components:
+  schemas:
+    CreateUser:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Андрей
+        email:
+          type: string
+          example: 1@mail.ru
+        avatarPath:
+          type: string
+          example: https://{url}/static/avatar/1.jpg
+        password:
+          type: string
+          example: password
+    User:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: 2dd9c
+        - $ref: '#/components/schemas/CreateUser'
+    RegisterUser:
+      allOf:
+        - $ref: '#/components/schemas/CreateUser'
+        - type: object
+          properties:
+            password:
+              type: string
+              example: password
+    AuthorizationInfo:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            token:
+              type: string
+              example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+    CreateComment:
+      type: object
+      properties:
+        description:
+          type: string
+          example: Крутой фильм!
+        rating:
+          type: integer
+          format: int32
+          example: 9
+        publicationDate:
+          type: string
+          example: 2021-12-12T21:55:28.147Z
+        author:
+          $ref: '#/components/schemas/User'
+    Comment:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: eb0af
+        - $ref: '#/components/schemas/CreateComment'
+    CreateFilm:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Человек-паук: Нет пути домой"
+        description:
+          type: string
+          example: "Жизнь и репутация Питера Паркера оказываются под угрозой, поскольку Мистерио раскрыл всему миру тайну личности Человека-паука. Пытаясь исправить ситуацию, Питер обращается за помощью к Стивену Стрэнджу, но вскоре всё становится намного опаснее."
+        publicationDate:
+          type: string
+          example: 2021-12-12T21:55:28.147Z
+        genre:
+          type: string
+          enum:
+            - Comedy
+            - Crime
+            - Documentary
+            - Drama
+            - Horror
+            - Family
+            - Romance
+            - Scifi
+            - Thriller
+        year:
+          type: integer
+          format: int32
+          example: 2022
+        rating:
+          type: integer
+          format: int32
+          example: 9
+        previewVideoLink:
+          type: string
+          example: https://{url}/static/previewVideoLink/1.jpg
+        videoLink:
+          type: string
+          example: https://{url}/static/videoLink/1.jpg
+        actors:
+          type: string          
+          example: Стивен Аллан Спилберг
+        director:
+          type: string
+          example: Стивен Аллан Спилберг
+        runTime:
+          type: integer
+          format: int32
+          example: 152
+        commentCount:
+          type: integer
+          format: int32
+          example: 3
+        user:
+          $ref: '#/components/schemas/User'
+        posterImage:
+          type: string
+          example: https://{url}/static/posterImage/1.jpg
+        backgroundImage:
+          type: string
+          example: https://{url}/static/backgroundImage/1.jpg
+        backgroundColor:
+          type: string
+          example: "#000000"
+    Film:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: f17c1
+            commentCount:
+              type: integer
+              format: int32
+              example: 3
+        - $ref: '#/components/schemas/CreateFilm'
+    SummaryFilm:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/CreateFilm/properties/title'
+        publicationDate:
+          $ref: '#/components/schemas/CreateFilm/properties/publicationDate'
+        genre:
+          $ref: '#/components/schemas/CreateFilm/properties/genre'
+        previewVideoLink:
+          $ref: '#/components/schemas/CreateFilm/properties/previewVideoLink'
+        user:
+          $ref: '#/components/schemas/CreateFilm/properties/user'
+        posterImage:
+          $ref: '#/components/schemas/CreateFilm/properties/posterImage'
+        commentCount:
+          $ref: '#/components/schemas/CreateFilm/properties/commentCount'  
