@@ -13,7 +13,7 @@ export default class CreateFilmDto {
   public actors!: string[];
   public director!: string;
   public runTime!: number;
-  public commentsCount!: number;
+  public commentCount!: number;
   public user!: User;
   public posterImage!: string;
   public backgroundImage!: string;
