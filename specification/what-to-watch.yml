@@ -476,4 +476,6 @@ components:
         posterImage:
           $ref: '#/components/schemas/CreateFilm/properties/posterImage'
         commentCount:
-          $ref: '#/components/schemas/Film/properties/commentCount'
+              type: integer
+              format: int32
+              example: 3
