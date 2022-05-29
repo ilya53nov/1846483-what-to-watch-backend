@@ -2,3 +2,25 @@
 GET http://localhost:3123/api HTTP/1.1
 
 ###
+
+# Пользователи
+## Регистрация пользователя
+
+POST http://localhost:4555/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "torans2@overlook.net",
+  "avatarPath": "torrance.png",
+  "name": "Jack",
+  "password": "shining"
+}
+
+###
+
+# Фильмы
+## Получить фильмы
+
+GET http://localhost:4555/films HTTP/1.1
+
+###

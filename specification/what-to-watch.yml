@@ -14,7 +14,7 @@ tags:
     description: Действия с комментариями.
   - name: user
     description: Действия с пользователем.
-paths: 
+paths:
   /films/:
     post:
       tags:
@@ -40,9 +40,6 @@ paths:
                   $ref: '#/components/schemas/Film'
         '400':
           description: Ошибка тела запроса
-          content: {}
-        '404':
-          description: Фильм не найден
           content: {}
     get:
       tags:
@@ -120,7 +117,7 @@ paths:
           description: Фильм добавлен к списку "К просмотру"
           content: {}
         '404':
-          description: Фильм не найден
+          description: Фильм не найден в списке "К просмотру"
           content: {}
     delete:
       tags:
@@ -142,7 +139,7 @@ paths:
           content: {}
         '404':
           description: Фильм не найден
-          content: {}       
+          content: {}
   /films/promo:
     get:
       tags:
@@ -156,10 +153,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateFilm'
+                $ref: '#/components/schemas/Film'
         '404':
           description: Промо фильм не найден
-          content: {}        
+          content: {}
   /films/{filmId}:
     put:
       tags:
@@ -189,6 +186,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Film'
+        '400':
+          description: Ошибка тела запроса
+          content: {}
         '404':
           description: Фильм не найден
           content: {}
@@ -297,7 +297,7 @@ paths:
           content: {}
         '404':
           description: Фильм не найден
-          content: {}        
+          content: {}
   /users/register:
     post:
       tags:
@@ -324,7 +324,7 @@ paths:
           content: {}
         '409':
           description: Пользователь с таким email существует
-          content: {}                  
+          content: {}
 components:
   schemas:
     CreateUser:
@@ -428,7 +428,7 @@ components:
           type: string
           example: https://{url}/static/videoLink/1.jpg
         actors:
-          type: string          
+          type: string
           example: Стивен Аллан Спилберг
         director:
           type: string
@@ -437,10 +437,6 @@ components:
           type: integer
           format: int32
           example: 152
-        commentCount:
-          type: integer
-          format: int32
-          example: 3
         user:
           $ref: '#/components/schemas/User'
         posterImage:
@@ -480,4 +476,6 @@ components:
         posterImage:
           $ref: '#/components/schemas/CreateFilm/properties/posterImage'
         commentCount:
-          $ref: '#/components/schemas/CreateFilm/properties/commentCount'  
+              type: integer
+              format: int32
+              example: 3
