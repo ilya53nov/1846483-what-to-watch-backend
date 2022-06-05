@@ -1,7 +1,7 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 
 import { Genre } from '../../../types/genre.enum.js';
-import { User } from '../../../types/user.type.js';
+import UserDto from '../../user/dto/user.dto.js';
 
 export default class FilmDto {
   @Expose()
@@ -41,7 +41,8 @@ export default class FilmDto {
   public commentCount!: number;
 
   @Expose()
-  public user!: User;
+  @Type(() => UserDto)
+  public user!: UserDto;
 
   @Expose()
   public posterImage!: string;
