@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+
 import { TAB_CHARACTER } from '../../const.js';
 import { Genre } from '../../types/genre.enum.js';
 import { MockData } from '../../types/mock-data.type.js';

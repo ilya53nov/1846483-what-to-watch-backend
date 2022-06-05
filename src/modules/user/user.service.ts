@@ -1,6 +1,7 @@
 import { DocumentType } from '@typegoose/typegoose';
 import { ModelType } from '@typegoose/typegoose/lib/types.js';
 import { inject, injectable } from 'inversify';
+
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { Component } from '../../types/component.types.js';
 import createUserDto from './dto/create-user.dto.js';

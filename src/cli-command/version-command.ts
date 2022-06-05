@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+
 import { COMMAND_START_SYMBOL, UTF_8 } from '../const.js';
 import { Command } from '../types/command.enum.js';
 import { CliCommandInterface } from './cli-command.interface.js';

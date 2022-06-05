@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import {injectable} from 'inversify';
 import {Response, Router} from 'express';
 import asyncHandler from 'express-async-handler';
+
 import {LoggerInterface} from '../logger/logger.interface.js';
 import {RouteInterface} from '../../types/route.interface.js';
 import {ControllerInterface} from './controller.interface.js';

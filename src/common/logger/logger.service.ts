@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
 import pino, { Logger } from 'pino';
+
 import { LoggerInterface } from './logger.interface.js';
 
 @injectable()
