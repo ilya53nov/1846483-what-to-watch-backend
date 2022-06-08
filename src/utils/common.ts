@@ -1,9 +1,11 @@
 import crypto from 'crypto';
+import {plainToInstance} from 'class-transformer';
+import {ClassConstructor} from 'class-transformer/types/interfaces/class-constructor.type.js';
+
 import { LINE_BREAK_CHARACTER, TAB_CHARACTER } from '../const.js';
 import { Film } from '../types/film.type.js';
 import { Genre } from '../types/genre.enum.js';
-import {plainToInstance} from 'class-transformer';
-import {ClassConstructor} from 'class-transformer/types/interfaces/class-constructor.type.js';
+
 
 const DECIMAL_NUMBER_SYSTEM = 10;
 

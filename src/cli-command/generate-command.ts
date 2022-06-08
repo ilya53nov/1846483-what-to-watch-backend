@@ -1,4 +1,5 @@
 import got from 'got';
+
 import { CardGenerator } from '../common/card-generator/card-generator.js';
 import TSVFileWriter from '../common/file-writer/tsv-file-writer.js';
 import { COMMAND_START_SYMBOL } from '../const.js';

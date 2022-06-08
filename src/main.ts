@@ -1,5 +1,6 @@
 import { ModelType } from '@typegoose/typegoose/lib/types.js';
 import { Container } from 'inversify';
+
 import Application from './app/application.js';
 import { ConfigInterface } from './common/config/config.interface.js';
 import ConfigService from './common/config/config.service.js';

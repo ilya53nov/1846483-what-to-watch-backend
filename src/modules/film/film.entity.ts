@@ -1,5 +1,6 @@
 import typegoose, { getModelForClass } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses.js';
+
 import { Collection } from '../../types/collection.enum.js';
 import { Film } from '../../types/film.type.js';
 import { Genre } from '../../types/genre.enum.js';

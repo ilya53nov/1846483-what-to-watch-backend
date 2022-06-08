@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+
 import { COMMAND_START_SYMBOL } from '../const.js';
 import { Command } from '../types/command.enum.js';
 import { CliCommandInterface } from './cli-command.interface.js';

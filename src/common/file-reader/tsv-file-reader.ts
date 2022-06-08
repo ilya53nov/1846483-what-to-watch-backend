@@ -1,5 +1,6 @@
 import EventEmitter from 'events';
 import { createReadStream } from 'fs';
+
 import { UTF_8 } from '../../const.js';
 import { EmitEvent } from './emit-event.enum.js';
 import { FileReaderInterface } from './file-reader.interface.js';

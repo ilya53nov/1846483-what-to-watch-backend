@@ -1,4 +1,5 @@
 import { createWriteStream, WriteStream } from 'fs';
+
 import { LINE_BREAK_CHARACTER, UTF_8 } from '../../const.js';
 import { FileWriterInterface } from './file-writer.interface.js';
 import { Flag } from './flag.enum.js';

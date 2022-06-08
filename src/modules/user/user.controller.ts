@@ -1,14 +1,17 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
+
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import { Controller } from '../../common/controller/controller.js';
 import HttpError from '../../common/errors/http-error.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { Component } from '../../types/component.types.js';
+import { ModuleController } from '../../types/controller.enum.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
 import CreateUserDto from './dto/create-user.dto.js';
+import LoginUserDto from './dto/login-user.dto.js';
 import UserDto from './dto/user.dto.js';
 import { UserServiceInterface } from './user-service.interface.js';
 
@@ -23,6 +26,7 @@ export default class UserController extends Controller {
     this.logger.info('Register routes for UserController...');
 
     this.addRoute({path: '/register', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({path: '/login', method: HttpMethod.Post, handler: this.login});
   }
 
   public async create(
@@ -35,7 +39,8 @@ export default class UserController extends Controller {
       throw new HttpError(
         StatusCodes.CONFLICT,
         `User with email «${body.email}» exists.`,
-        'UserController'      );
+        ModuleController.User
+      );
     }
 
     const result = await this.userService.create(body, this.configService.get('SALT'));
@@ -44,6 +49,27 @@ export default class UserController extends Controller {
       res,
       StatusCodes.CREATED,
       fillDTO(UserDto, result)
+    );
+  }
+
+  public async login(
+    {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+    _res: Response,
+  ): Promise<void> {
+    const existsUser = await this.userService.findByEmail(body.email);
+
+    if (!existsUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        `User with email ${body.email} not found.`,
+        ModuleController.User
+      );
+    }
+
+    throw new HttpError(
+      StatusCodes.NOT_IMPLEMENTED,
+      'Not implemented',
+      ModuleController.User
     );
   }
 }
