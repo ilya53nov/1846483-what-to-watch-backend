@@ -24,7 +24,7 @@ POST http://localhost:4555/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans@overlook.net",  
+  "email": "torans2@overlook.net",  
   "password": "shining"
 }
 
@@ -71,7 +71,7 @@ Content-Type: application/json
 
 ## Удалить карточку фильма
 
-DELETE http://localhost:4555/films/629cd0186dd8cdb85d80610c HTTP/1.1
+DELETE http://localhost:4555/films/62a303c713c99a1daef8e2f2 HTTP/1.1
 
 ###
 

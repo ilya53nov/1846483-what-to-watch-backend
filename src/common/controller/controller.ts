@@ -32,19 +32,20 @@ export abstract class Controller implements ControllerInterface {
     this.logger.info(`Route registered: ${route.method.toUpperCase()} ${route.path}`);
   }
 
-  public send<T>(res: Response, statusCode: number, data: T): void {
+  public send<T>(res: Response, statusCode: number, data?: T): void {
     res
       .type('application/json')
       .status(statusCode)
-      .json(data);
+
+    data ? res.json(data) : res.json();      
   }
 
-  public created<T>(res: Response<any, Record<string, any>>, data: T): void {
+  public created<T>(res: Response, data: T): void {
     this.send(res, StatusCodes.CREATED, data);
   }
 
-  public noContent<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.NO_CONTENT, data);
+  public noContent(res: Response): void {
+    this.send(res, StatusCodes.NO_CONTENT);
   }
 
   public ok<T>(res: Response, data: T): void {

@@ -51,9 +51,9 @@ export default class FilmController extends Controller {
     {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateFilmDto>,
     res: Response
   ): Promise<void> {
-    const result = await this.filmService.create(body);
-    const film = await this.filmService.findById(result.id);
-    this.created(res, fillDTO(FilmDto, film));
+    const createdFilm = await this.filmService.create(body);
+    
+    this.created(res, fillDTO(FilmDto, createdFilm));
   }
 
   public async get(
@@ -89,7 +89,7 @@ export default class FilmController extends Controller {
       );
     }
 
-    this.noContent(res, film);
+    this.noContent(res);
   }
 
   public async update(
