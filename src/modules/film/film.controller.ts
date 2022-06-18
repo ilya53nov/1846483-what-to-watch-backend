@@ -15,6 +15,7 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import CreateFilmDto from './dto/create-film.dto.js';
 import SummaryFilmDto from './dto/summary-film.dto.js';
 import { ModuleController } from '../../types/controller.enum.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 type ParamsGetFilm = {
   filmId: string;
@@ -29,10 +30,10 @@ export default class FilmController extends Controller {
 
     this.logger.info('Register routes for FilmController...');
 
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create, middlewares: [new ValidateDtoMiddleware(CreateFilmDto)]});
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
     this.addRoute({path: '/promo', method: HttpMethod.Get, handler: this.index});
-    this.addRoute({path: '/:filmId', method: HttpMethod.Put, handler: this.update, middlewares: [new ValidateObjectIdMiddleware('filmId')]});
+    this.addRoute({path: '/:filmId', method: HttpMethod.Put, handler: this.update, middlewares: [new ValidateObjectIdMiddleware('filmId'), new ValidateDtoMiddleware(CreateFilmDto)]});
     this.addRoute({path: '/:filmId', method: HttpMethod.Delete, handler: this.delete, middlewares: [new ValidateObjectIdMiddleware('filmId')]});
     this.addRoute({path: '/:filmId', method: HttpMethod.Get, handler: this.get, middlewares: [new ValidateObjectIdMiddleware('filmId')]});
 
@@ -52,7 +53,7 @@ export default class FilmController extends Controller {
     res: Response
   ): Promise<void> {
     const createdFilm = await this.filmService.create(body);
-    
+
     this.created(res, fillDTO(FilmDto, createdFilm));
   }
 
