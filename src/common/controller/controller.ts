@@ -35,9 +35,13 @@ export abstract class Controller implements ControllerInterface {
   public send<T>(res: Response, statusCode: number, data?: T): void {
     res
       .type('application/json')
-      .status(statusCode)
+      .status(statusCode);
 
-    data ? res.json(data) : res.json();      
+    if (data) {
+      res.json(data);
+    } else {
+      res.json();
+    }
   }
 
   public created<T>(res: Response, data: T): void {
