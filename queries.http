@@ -10,7 +10,7 @@ POST http://localhost:4555/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans2@overlook.net",
+  "email": "torans3@overlook.net",
   "avatarPath": "torrance.png",
   "name": "Jack",
   "password": "shining"
@@ -53,13 +53,13 @@ Content-Type: application/json
   "description": "В мировом прокате фильм собрал более 1,1 миллиарда долларов[1][2], став вторым фильмом в истории после «Титаника», которому покорился миллиардный рубеж кассовых сборов. На данный момент (март 2021 года) фильм занимает 24 место в списке самых кассовых фильмов за всю историю кинематографа[3]. Фильм получил 11 премий «Оскар» (чем повторил рекорд «Бен-Гура» и «Титаника»), и стал первой картиной в жанре фэнтези, названной Киноакадемией «Лучшим фильмом года»[4]",
   "publicationDate": "2022-04-10T08:45:40.283Z",
   "genre": "Family",
-  "year": "2018",
-  "rating": "10",
+  "year": 2018,
+  "rating": 10,
   "previewVideoLink": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "videoLink": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "actors": ["Уилл Смит", "Джеки Чан"],
   "director": "Стивен Аллан Спилберг",
-  "runTime": "140",
+  "runTime": 140,
   "commentCount": 5,
   "user": "629cb956405c25bebb1c2338",
   "posterImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
@@ -71,13 +71,13 @@ Content-Type: application/json
 
 ## Удалить карточку фильма
 
-DELETE http://localhost:4555/films/62a303c713c99a1daef8e2f2 HTTP/1.1
+DELETE http://localhost:4555/films/62ade8b8adcd95e522d3bcc5 HTTP/1.1
 
 ###
 
 ## Редактирование карточки фильма
 
-PUT  http://localhost:4555/films/629cd0046dd8cdb85d806108 HTTP/1.1
+PUT  http://localhost:4555/films/62ada3ab47f23928d4e0eab2 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -85,18 +85,32 @@ Content-Type: application/json
   "description": "В мировом прокате фильм собрал более 1,1 миллиарда долларов[1][2], став вторым фильмом в истории после «Титаника», которому покорился миллиардный рубеж кассовых сборов. На данный момент (март 2021 года) фильм занимает 24 место в списке самых кассовых фильмов за всю историю кинематографа[3]. Фильм получил 11 премий «Оскар» (чем повторил рекорд «Бен-Гура» и «Титаника»), и стал первой картиной в жанре фэнтези, названной Киноакадемией «Лучшим фильмом года»[4]",
   "publicationDate": "2022-04-10T08:45:40.283Z",
   "genre": "Family",
-  "year": "2018",
-  "rating": "10",
+  "year": 2018,
+  "rating": 10,
   "previewVideoLink": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "videoLink": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "actors": ["Уилл Смит", "Джеки Чан"],
   "director": "Стивен Аллан Спилберг",
-  "runTime": "140",
+  "runTime": 140,
   "commentCount": 5,
   "user": "629cb956405c25bebb1c2338",
   "posterImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "backgroundImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "backgroundColor": "#04ff00"
 }
+
+###
+
+## Отправка аватарки пользователю
+
+POST http://localhost:4555/users/62823cb2c5a64ce9f1b50eb6/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="54.jpg"
+Content-Type: image/png
+
+< /media/ilya/2CA09E36A09E070C/54.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
