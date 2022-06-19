@@ -39,7 +39,7 @@ GET http://localhost:4555/films HTTP/1.1
 
 ## Получить фильм
 
-GET http://localhost:4555/films/629cb956405c25bebb1c233a HTTP/1.1
+GET http://localhost:4555/films/62af58c3be2b45c2fd8ba9ed34 HTTP/1.1
 
 ###
 
