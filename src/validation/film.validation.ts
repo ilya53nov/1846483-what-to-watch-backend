@@ -3,16 +3,11 @@ import { Genre } from '../types/genre.enum.js';
 import { ValidationInterface } from './validation.interface.js';
 
 const title: ValidationInterface = {
-  minLength: [2, 'Min length for title is 2'],
-  maxLength: [100, 'Max length for title is 100'],
   required: true,
   trim: true,
 };
 
 const description: ValidationInterface = {
-  minLength: [20, 'Min length for description is 20'],
-  maxLength: [1024, 'Max length for description is 1024'],
-  required: true,
   trim: true,
 };
 
@@ -49,8 +44,6 @@ const actors: ValidationInterface = {
 
 const director: ValidationInterface = {
   required: true,
-  minLength: [2, 'Min length for director is 2'],
-  maxLength: [50, 'Max length for director is 50'],
 };
 
 const runTime: ValidationInterface = {
