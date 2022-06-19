@@ -3,4 +3,5 @@ export enum MainRoute {
   Films = '/films',
   Favorite = '/favotite',
   Upload = '/upload',
+  Comments = '/comments',
 }
