@@ -11,6 +11,10 @@ import { ExceptionFilterInterface } from './common/errors/exception-filter.inter
 import ExceptionFilter from './common/errors/exception-filter.js';
 import { LoggerInterface } from './common/logger/logger.interface.js';
 import LoggerService from './common/logger/logger.service.js';
+import { CommentServiceInterface } from './modules/comment/comment-service.interface.js';
+import CommentController from './modules/comment/comment.controller.js';
+import { CommentEntity, CommentModel } from './modules/comment/comment.entity.js';
+import CommentService from './modules/comment/comment.service.js';
 import FavoriteFilmController from './modules/film/favorite-film.controller.js';
 import { FilmServiceInterface } from './modules/film/film-service.interface.js';
 import FilmController from './modules/film/film.controller.js';
@@ -36,6 +40,9 @@ applicationContainer.bind<ExceptionFilterInterface>(Component.ExceptionFilterInt
 applicationContainer.bind<ControllerInterface>(Component.UserController).to(UserController).inSingletonScope();
 applicationContainer.bind<ControllerInterface>(Component.FilmController).to(FilmController).inSingletonScope();
 applicationContainer.bind<ControllerInterface>(Component.FavoriteFilmController).to(FavoriteFilmController).inSingletonScope();
+applicationContainer.bind<CommentServiceInterface>(Component.CommentServiceInterface).to(CommentService).inSingletonScope();
+applicationContainer.bind<ModelType<CommentEntity>>(Component.CommentModel).toConstantValue(CommentModel);
+applicationContainer.bind<ControllerInterface>(Component.CommentController).to(CommentController).inSingletonScope();
 
 const application = applicationContainer.get<Application>(Component.Application);
 await application.init();

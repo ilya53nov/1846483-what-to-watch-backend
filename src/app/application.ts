@@ -12,6 +12,7 @@ import UserController from '../modules/user/user.controller.js';
 import FilmController from '../modules/film/film.controller.js';
 import FavoriteFilmController from '../modules/film/favorite-film.controller.js';
 import { MainRoute } from '../types/route.enum.js';
+import { ControllerInterface } from '../common/controller/controller.interface.js';
 
 @injectable()
 export default class Application{
@@ -25,6 +26,7 @@ export default class Application{
     @inject(Component.UserController) private userController: UserController,
     @inject(Component.FilmController) private filmController: FilmController,
     @inject(Component.FavoriteFilmController) private favoriteFilmController: FavoriteFilmController,
+    @inject(Component.CommentController) private commentController: ControllerInterface,
   ) {
     this.expressApp = express();
   }
@@ -33,6 +35,7 @@ export default class Application{
     this.expressApp.use(MainRoute.Users, this.userController.router);
     this.expressApp.use(MainRoute.Films, this.filmController.router);
     this.expressApp.use(MainRoute.Favorite, this.favoriteFilmController.router);
+    this.expressApp.use(MainRoute.Comments, this.commentController.router);
   }
 
   public registerMiddlewares() {
