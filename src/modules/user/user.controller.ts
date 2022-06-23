@@ -12,11 +12,13 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import { Component } from '../../types/component.types.js';
 import { ModuleController } from '../../types/controller.enum.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
-import { fillDTO } from '../../utils/common.js';
+import { createJWT, fillDTO } from '../../utils/common.js';
 import CreateUserDto from './dto/create-user.dto.js';
+import LoggedUserDto from './dto/logged-user.dto.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import UserDto from './dto/user.dto.js';
 import { UserServiceInterface } from './user-service.interface.js';
+import { JWT_ALGORITM } from './user.constant.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -82,23 +84,25 @@ export default class UserController extends Controller {
 
   public async login(
     {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
-    _res: Response,
+    res: Response,
   ): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.email);
+    const user = await this.userService.verifyUser(body, this.configService.get('SALT'));
 
-    if (!existsUser) {
+    if (!user) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
-        `User with email ${body.email} not found.`,
+        'Unauthorized',
         ModuleController.User
       );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      ModuleController.User
+    const token = await createJWT(
+      JWT_ALGORITM,
+      this.configService.get('JWT_SECRET'),
+      { email: user.email, id: user.id}
     );
+
+    this.ok(res, fillDTO(LoggedUserDto, {email: user.email, token}));
   }
 
   public async uploadAvatar(req: Request, res: Response) {
