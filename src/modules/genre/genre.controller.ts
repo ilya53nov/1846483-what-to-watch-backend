@@ -5,7 +5,6 @@ import * as core from 'express-serve-static-core';
 import { Controller } from '../../common/controller/controller.js';
 import { Component } from '../../types/component.types.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
-//import { FilmServiceInterface } from '../film/film-service.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { Genre } from '../../types/genre.enum.js';
 import { fillDTO } from '../../utils/common.js';
@@ -20,7 +19,6 @@ export default class GenreController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.GenreServiceInterface) private readonly genreService: GenreServiceInterface,
-    //@inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
   ) {
     super(logger);
 
