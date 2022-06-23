@@ -10,7 +10,7 @@ POST http://localhost:4555/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans6@overlook.net",
+  "email": "torans1@overlook.net",
   "avatarPath": "torrance.png",
   "name": "Jack",
   "password": "shining"
@@ -53,13 +53,13 @@ GET http://localhost:4555/films HTTP/1.1
 
 ## Получить фильмы определённого жанра
 
-GET http://localhost:4555/films/Family HTTP/1.1
+GET http://localhost:4555/genres/Comedy HTTP/1.1
 
 ###
 
 ## Получить фильм
 
-GET http://localhost:4555/films/62af58c3be2b45c2fd8ba9ed34 HTTP/1.1
+GET http://localhost:4555/films/62b2d651f0e72b2a53289fc3 HTTP/1.1
 
 ###
 
@@ -81,7 +81,7 @@ Content-Type: application/json
   "director": "Стивен Аллан Спилберг",
   "runTime": 140,
   "commentCount": 5,
-  "user": "629cb956405c25bebb1c2338",
+  "user": "62b2dd60d1a55f72823e981e",
   "posterImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "backgroundImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "backgroundColor": "#04ff00"
