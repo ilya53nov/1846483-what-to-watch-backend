@@ -4,14 +4,11 @@ import { inject, injectable } from 'inversify';
 
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { Component } from '../../types/component.types.js';
-import { Genre } from '../../types/genre.enum.js';
 import createFilmDto from './dto/create-film.dto.js';
 import FilmDto from './dto/film.dto.js';
 import { FilmServiceInterface } from './film-service.interface.js';
-import { FIELD_FOR_SORTING_PUBLICATION_DATE, MAX_FILM_COUNT } from './film.constants.js';
+import { FIELD_FOR_SORTING_PUBLICATION_DATE, MAX_FILM_COUNT, USER } from './film.constants.js';
 import { FilmEntity } from './film.entity.js';
-
-const USER = 'user';
 
 @injectable()
 export default class FilmService implements FilmServiceInterface {
@@ -32,15 +29,6 @@ export default class FilmService implements FilmServiceInterface {
   public async findById(id: string): Promise<DocumentType<FilmEntity> | null> {
     return this.filmModel
       .findById(id)
-      .populate([USER])
-      .exec();
-  }
-
-  public async findByGenre(genre: Genre): Promise<DocumentType<FilmEntity>[]> {
-    return this.filmModel
-      .find({genre: genre})
-      .limit(MAX_FILM_COUNT)
-      .sort(`${FIELD_FOR_SORTING_PUBLICATION_DATE}: -1`)
       .populate([USER])
       .exec();
   }
@@ -76,6 +64,22 @@ export default class FilmService implements FilmServiceInterface {
       .findByIdAndUpdate(id, {'$inc': {
         commentCount: 1,
       }}).exec();
+  }
+
+  // TODO
+  public async incRating(id: string, rating: number): Promise<DocumentType<FilmEntity> | null> {
+    //const ratingSum = await this.filmModel.findById(id).find({ratingSum}).exec();
+    //const commentCount = await this.filmModel.findById(id).find('commentCount').exec();
+
+    //console.log(ratingSum, commentCount);
+
+    return this.filmModel
+      .findByIdAndUpdate(
+        id,
+        {
+          '$inc': {_ratingSum: rating},
+        }
+      ).exec();
   }
 
 }

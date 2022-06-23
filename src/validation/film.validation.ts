@@ -28,6 +28,10 @@ const rating: ValidationInterface = {
   required: true,
 };
 
+const ratingSum: ValidationInterface = {
+  required: false,
+};
+
 const previewVideoLink: ValidationInterface = {
   required: true,
 };
@@ -78,6 +82,7 @@ export const FilmValidation = {
   genre,
   year,
   rating,
+  ratingSum,
   previewVideoLink,
   videoLink,
   actors,

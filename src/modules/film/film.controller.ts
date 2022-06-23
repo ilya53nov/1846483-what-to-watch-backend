@@ -13,21 +13,14 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import CreateFilmDto from './dto/create-film.dto.js';
 import SummaryFilmDto from './dto/summary-film.dto.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
-import { CommentServiceInterface } from '../comment/comment-service.interface.js';
-import CommentDto from '../comment/dto/comment.dto.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
-import { Genre } from '../../types/genre.enum.js';
-
-type ParamsGetFilm = {
-  filmId: string;
-  genre: string;
-}
+import { ParamsFilm } from '../../types/params-film.type.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 export default class FilmController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
-    @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
   ) {
     super(logger);
 
@@ -38,6 +31,7 @@ export default class FilmController extends Controller {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateFilmDto),
       ]
     });
@@ -48,11 +42,6 @@ export default class FilmController extends Controller {
       handler: this.index
     });
 
-    this.addRoute({
-      path: '/:genre',
-      method: HttpMethod.Get,
-      handler: this.getFilmsGenre
-    });
 
     this.addRoute({
       path: '/promo',
@@ -66,7 +55,8 @@ export default class FilmController extends Controller {
       handler: this.update,
       middlewares: [
         new ValidateObjectIdMiddleware('filmId'),
-        new ValidateDtoMiddleware(CreateFilmDto)
+        new ValidateDtoMiddleware(CreateFilmDto),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
       ]
     });
 
@@ -90,17 +80,6 @@ export default class FilmController extends Controller {
       ]
     });
 
-    this.addRoute({
-      path: '/:filmId/comments',
-      method: HttpMethod.Get,
-      handler: this.getComments,
-      middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
-      ]
-    });
-
-    //this.addRoute({path: '/filmId/comments', method: HttpMethod.Post, handler: this.index});
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -119,7 +98,7 @@ export default class FilmController extends Controller {
   }
 
   public async getFilm(
-    {params}: Request<core.ParamsDictionary | ParamsGetFilm>,
+    {params}: Request<core.ParamsDictionary | ParamsFilm>,
     res: Response
   ): Promise<void> {
     const {filmId} = params;
@@ -129,18 +108,8 @@ export default class FilmController extends Controller {
     this.ok(res, fillDTO(FilmDto, film));
   }
 
-  public async getFilmsGenre(
-    {params}: Request<core.ParamsDictionary | ParamsGetFilm>,
-    res: Response
-  ): Promise<void> {
-    const {genre} = params;
-    const films = await this.filmService.findByGenre(genre as Genre);
-
-    this.ok(res, fillDTO(SummaryFilmDto, films));
-  }
-
   public async delete(
-    {params}: Request<core.ParamsDictionary | ParamsGetFilm>,
+    {params}: Request<core.ParamsDictionary | ParamsFilm>,
     res: Response
   ): Promise<void> {
     const {filmId} = params;
@@ -150,20 +119,11 @@ export default class FilmController extends Controller {
   }
 
   public async update(
-    {body, params}: Request<core.ParamsDictionary | ParamsGetFilm, Record<string, unknown>, FilmDto>,
+    {body, params}: Request<core.ParamsDictionary | ParamsFilm, Record<string, unknown>, FilmDto>,
     res: Response
   ): Promise<void> {
     const updatedFilm = await this.filmService.updateById(params.filmId, body);
 
     this.ok(res, fillDTO(FilmDto, updatedFilm));
-  }
-
-  public async getComments(
-    {params}: Request<core.ParamsDictionary | ParamsGetFilm, object, object>,
-    res: Response
-  ): Promise<void> {
-
-    const comments = await this.commentService.findByFilmId(params.filmId);
-    this.ok(res, fillDTO(CommentDto, comments));
   }
 }

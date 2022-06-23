@@ -56,31 +56,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SummaryFilm'
-  /films/{genre}:
-    get:
-      tags:
-        - film
-      summary: Получить список фильмов определённого жанра
-      description: Получение списка фильмов определённого жанра `genre`.
-      operationId: getFilmsByGenre
-      parameters:
-        - name: genre
-          in: path
-          description: Жанр фильма
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/CreateFilm/properties/genre'
-      responses:
-        '200':
-          description: Список фильмов
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SummaryFilm'
+  
   /favorite:
     get:
       tags:
@@ -236,8 +212,8 @@ paths:
                 $ref: '#/components/schemas/Film'
         '404':
           description: Фильм не найден
-          content: {}
-  /films/{filmId}/comments:
+          content: {}   
+  /comments/{filmId}:
     get:
       tags:
         - comment
@@ -298,6 +274,31 @@ paths:
         '404':
           description: Фильм не найден
           content: {}
+  /genres/{genre}:
+    get:
+      tags:
+        - film
+      summary: Получить список фильмов определённого жанра
+      description: Получение списка фильмов определённого жанра `genre`.
+      operationId: getFilmsByGenre
+      parameters:
+        - name: genre
+          in: path
+          description: Жанр фильма
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/CreateFilm/properties/genre'
+      responses:
+        '200':
+          description: Список фильмов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryFilm'
   /users/register:
     post:
       tags:

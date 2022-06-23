@@ -27,6 +27,7 @@ export class FilmEntity extends TimeStamps implements Film {
     this.genre = data.genre;
     this.year = data.year;
     this.rating = data.rating;
+    this._ratingSum = data.rating;
     this.previewVideoLink = data.previewVideoLink;
     this.videoLink = data.videoLink;
     this.actors = data.actors;
@@ -56,6 +57,9 @@ export class FilmEntity extends TimeStamps implements Film {
 
   @prop(FilmValidation.rating)
   public rating!: number;
+
+  @prop(FilmValidation.ratingSum)
+  public _ratingSum!: number;
 
   @prop(FilmValidation.previewVideoLink)
   public previewVideoLink!: string;
