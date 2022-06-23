@@ -12,4 +12,5 @@ export interface FilmServiceInterface extends DocumentExistsInterface {
   deleteById(id: string): Promise<DocumentType<FilmEntity> | null>;
   updateById(id: string, dto: FilmDto): Promise<DocumentType<FilmEntity> | null>;
   incCommentCount(id: string): Promise<DocumentType<FilmEntity> | null>;
+  incRating(id: string, rating: number): Promise<DocumentType<FilmEntity> | null>;
 }

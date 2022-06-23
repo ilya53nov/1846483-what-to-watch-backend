@@ -66,4 +66,20 @@ export default class FilmService implements FilmServiceInterface {
       }}).exec();
   }
 
+  // TODO
+  public async incRating(id: string, rating: number): Promise<DocumentType<FilmEntity> | null> {
+    //const ratingSum = await this.filmModel.findById(id).find({ratingSum}).exec();
+    //const commentCount = await this.filmModel.findById(id).find('commentCount').exec();
+
+    //console.log(ratingSum, commentCount);
+
+    return this.filmModel
+      .findByIdAndUpdate(
+        id,
+        {
+          '$inc': {_ratingSum: rating},
+        }
+      ).exec();
+  }
+
 }
