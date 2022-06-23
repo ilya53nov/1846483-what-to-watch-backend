@@ -16,11 +16,9 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import CommentDto from '../comment/dto/comment.dto.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
-import { Genre } from '../../types/genre.enum.js';
 
 type ParamsGetFilm = {
   filmId: string;
-  genre: string;
 }
 
 export default class FilmController extends Controller {
@@ -48,11 +46,6 @@ export default class FilmController extends Controller {
       handler: this.index
     });
 
-    this.addRoute({
-      path: '/:genre',
-      method: HttpMethod.Get,
-      handler: this.getFilmsGenre
-    });
 
     this.addRoute({
       path: '/promo',
@@ -66,7 +59,8 @@ export default class FilmController extends Controller {
       handler: this.update,
       middlewares: [
         new ValidateObjectIdMiddleware('filmId'),
-        new ValidateDtoMiddleware(CreateFilmDto)
+        new ValidateDtoMiddleware(CreateFilmDto),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
       ]
     });
 
@@ -127,16 +121,6 @@ export default class FilmController extends Controller {
     const film = await this.filmService.findById(filmId);
 
     this.ok(res, fillDTO(FilmDto, film));
-  }
-
-  public async getFilmsGenre(
-    {params}: Request<core.ParamsDictionary | ParamsGetFilm>,
-    res: Response
-  ): Promise<void> {
-    const {genre} = params;
-    const films = await this.filmService.findByGenre(genre as Genre);
-
-    this.ok(res, fillDTO(SummaryFilmDto, films));
   }
 
   public async delete(

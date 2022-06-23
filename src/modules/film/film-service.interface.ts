@@ -1,7 +1,6 @@
 import { DocumentType } from '@typegoose/typegoose';
 
 import { DocumentExistsInterface } from '../../types/document-exists.interface.js';
-import { Genre } from '../../types/genre.enum.js';
 import CreateFilmDto from './dto/create-film.dto.js';
 import FilmDto from './dto/film.dto.js';
 import { FilmEntity } from './film.entity.js';
@@ -9,7 +8,6 @@ import { FilmEntity } from './film.entity.js';
 export interface FilmServiceInterface extends DocumentExistsInterface {
   create(dto: CreateFilmDto): Promise<DocumentType<FilmEntity>>;
   findById(id: string): Promise<DocumentType<FilmEntity> | null>;
-  findByGenre(genre: Genre): Promise<DocumentType<FilmEntity>[]>;
   find(): Promise<DocumentType<FilmEntity>[]>;
   deleteById(id: string): Promise<DocumentType<FilmEntity> | null>;
   updateById(id: string, dto: FilmDto): Promise<DocumentType<FilmEntity> | null>;
