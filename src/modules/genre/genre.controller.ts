@@ -25,7 +25,7 @@ export default class GenreController extends Controller {
     this.logger.info('Register routes for GenreController...');
 
     this.addRoute({
-      path: '/:genre',
+      path: '/:genre/films',
       method: HttpMethod.Get,
       handler: this.getFilmsGenre
     });
@@ -36,7 +36,8 @@ export default class GenreController extends Controller {
     res: Response
   ): Promise<void> {
     const {genre} = params;
-    const films = await this.genreService.findByGenre(genre as Genre);
+
+    const films = await this.genreService.findByGenre(genre.toLowerCase() as Genre);
 
     this.ok(res, fillDTO(SummaryFilmDto, films));
   }

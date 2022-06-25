@@ -39,7 +39,7 @@ export const createCard = (row: string) => {
     title,
     description,
     publicationDate: new Date(publicationDate),
-    genre: Genre[genre as Genre] ,
+    genre: genre as Genre,
     year: Number.parseInt(year, DECIMAL_NUMBER_SYSTEM),
     rating: Number.parseInt(rating, DECIMAL_NUMBER_SYSTEM),
     previewVideoLink,

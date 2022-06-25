@@ -10,4 +10,7 @@ export interface UserServiceInterface {
   findById(id: string): Promise<DocumentType<UserEntity> | null>;
   findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>>;
   verifyUser(dto: LoginUserDto, salt: string): Promise<DocumentType<UserEntity> | null>;
+  deleteFromFavoriteFilm(userId: string, filmId: string): Promise<DocumentType<UserEntity> | null>;
+  addToFavoriteFilm(userId: string, filmId: string): Promise<DocumentType<UserEntity> | null>;
+  getFavoriteFilms(userId: string): Promise<DocumentType<UserEntity> | null>;
 }

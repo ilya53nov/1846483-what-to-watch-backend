@@ -1,4 +1,4 @@
-import { IsOptional, IsMongoId, MinLength, MaxLength, IsDateString, IsEnum, IsInt, IsString, IsArray } from 'class-validator';
+import { IsMongoId, MinLength, MaxLength, IsDateString, IsEnum, IsInt, IsString, IsArray } from 'class-validator';
 
 import { Genre } from '../../../types/genre.enum.js';
 import { User } from '../../../types/user.type.js';
@@ -25,9 +25,6 @@ export default class CreateFilmDto {
 
   @IsInt({message: 'rating must be an integer'})
   public rating!: number;
-
-  @IsOptional()
-  public _ratingSum!: number;
 
   @IsString({message: 'previewVideoLink is required'})
   public previewVideoLink!: string;

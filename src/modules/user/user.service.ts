@@ -59,4 +59,50 @@ export default class UserService implements UserServiceInterface {
 
     return null;
   }
+
+  public async deleteFromFavoriteFilm(userId: string, filmId: string): Promise<DocumentType<UserEntity> | null> {
+    const finded = await this.userModel.exists({_id: userId, favoriteFilms: filmId});
+
+    if (finded) {
+      return this.userModel
+        .findByIdAndUpdate(
+          userId,
+          {
+            '$pull': {favoriteFilms: filmId},
+          },
+        ).exec();
+    }
+
+    return null;
+
+  }
+
+  public async addToFavoriteFilm(userId: string, filmId: string): Promise<DocumentType<UserEntity> | null> {
+    const finded = await this.userModel.exists({_id: userId, favoriteFilms: filmId});
+
+    if (!finded) {
+      return this.userModel
+        .findByIdAndUpdate(
+          userId,
+          {
+            '$push': {favoriteFilms: filmId},
+          },
+          {upsert: true},
+        ).exec();
+    }
+
+    return null;
+  }
+
+  public async getFavoriteFilms(userId: string): Promise<DocumentType<UserEntity> | null> {
+    const favoriteFilms =  await this.userModel
+      .findOne({_id: userId}, {favoriteFilms: 1, _id: 0})
+      .exec();
+
+    if (favoriteFilms) {
+      return favoriteFilms;
+    }
+
+    return null;
+  }
 }

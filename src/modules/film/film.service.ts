@@ -42,6 +42,13 @@ export default class FilmService implements FilmServiceInterface {
       .exec();
   }
 
+  public async findByIdItems(idItems: string[]): Promise<DocumentType<FilmEntity>[]> {
+    return this.filmModel
+      .find({_id: {'$in': idItems}})
+      .populate([USER])
+      .exec();
+  }
+
   public async deleteById(id: string): Promise<DocumentType<FilmEntity> | null> {
     return this.filmModel
       .findByIdAndDelete(id)
@@ -67,19 +74,27 @@ export default class FilmService implements FilmServiceInterface {
   }
 
   // TODO
-  public async incRating(id: string, rating: number): Promise<DocumentType<FilmEntity> | null> {
-    //const ratingSum = await this.filmModel.findById(id).find({ratingSum}).exec();
-    //const commentCount = await this.filmModel.findById(id).find('commentCount').exec();
+  public async updateRating(id: string, rating: number): Promise<DocumentType<FilmEntity> | null> {
+    const findedFields = await this.filmModel.findById(id, {_ratingSum: 1, commentCount:1, _id: 0}).exec();
 
-    //console.log(ratingSum, commentCount);
+    const ratingSum = findedFields?._ratingSum;
+    const commentCount = findedFields?.commentCount;
+
+    let averageRating = rating;
+
+    if (ratingSum && commentCount) {
+      averageRating = (ratingSum + rating) / commentCount;
+    }
 
     return this.filmModel
       .findByIdAndUpdate(
         id,
         {
           '$inc': {_ratingSum: rating},
+          '$set': {rating: averageRating},
         }
       ).exec();
+
   }
 
 }

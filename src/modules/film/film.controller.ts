@@ -16,11 +16,15 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { ParamsFilm } from '../../types/params-film.type.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import CommentDto from '../comment/dto/comment.dto.js';
+import { CommentServiceInterface } from '../comment/comment-service.interface.js';
+import CreateCommentDto from '../comment/dto/create-comment.dto.js';
 
 export default class FilmController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
+    @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
   ) {
     super(logger);
 
@@ -80,6 +84,27 @@ export default class FilmController extends Controller {
       ]
     });
 
+    this.addRoute({
+      path: '/:filmId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments,
+      middlewares: [
+        new ValidateObjectIdMiddleware('filmId'),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ]
+    });
+
+    this.addRoute({
+      path: '/:filmId/comments',
+      method: HttpMethod.Post,
+      handler: this.createComment,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateCommentDto),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ]
+    });
+
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -125,5 +150,29 @@ export default class FilmController extends Controller {
     const updatedFilm = await this.filmService.updateById(params.filmId, body);
 
     this.ok(res, fillDTO(FilmDto, updatedFilm));
+  }
+
+  public async getComments(
+    {params}: Request<core.ParamsDictionary | ParamsFilm, object, object>,
+    res: Response
+  ): Promise<void> {
+
+    const comments = await this.commentService.findByFilmId(params.filmId);
+    this.ok(res, fillDTO(CommentDto, comments));
+  }
+
+  public async createComment(
+    {body, params, user}: Request<core.ParamsDictionary | ParamsFilm , Record<string, unknown>, CreateCommentDto>,
+    res: Response
+  ): Promise<void> {
+
+    const {filmId} = params;
+
+    const comment = await this.commentService.create({...body, userId: user.id, filmId: filmId});
+
+    await this.filmService.incCommentCount(filmId);
+    await this.filmService.updateRating(filmId, body.rating);
+
+    this.created(res, fillDTO(CommentDto, comment));
   }
 }

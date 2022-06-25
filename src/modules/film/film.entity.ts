@@ -27,7 +27,7 @@ export class FilmEntity extends TimeStamps implements Film {
     this.genre = data.genre;
     this.year = data.year;
     this.rating = data.rating;
-    this._ratingSum = data.rating;
+    this._ratingSum = 0;
     this.previewVideoLink = data.previewVideoLink;
     this.videoLink = data.videoLink;
     this.actors = data.actors;
