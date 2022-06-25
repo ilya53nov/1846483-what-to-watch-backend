@@ -6,4 +6,7 @@ export default class LoggedUserDto {
 
   @Expose()
   public email!: string;
+
+  @Expose()
+  public avatarPath!: string;
 }

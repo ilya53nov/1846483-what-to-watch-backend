@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { inject, injectable}  from 'inversify';
 import express, { Express } from 'express';
+import cors from 'cors';
 
 import { ConfigInterface } from '../common/config/config.interface.js';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
@@ -14,6 +15,7 @@ import FavoriteFilmController from '../modules/film/favorite-film.controller.js'
 import { MainRoute } from '../types/route.enum.js';
 import GenreController from '../modules/genre/genre.controller.js';
 import { AuthenticateMiddleware } from '../common/middlewares/authenticate.middleware.js';
+import { getFullServerPath } from '../utils/common.js';
 
 @injectable()
 export default class Application{
@@ -45,6 +47,10 @@ export default class Application{
       MainRoute.Upload,
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
+    this.expressApp.use(
+      '/static',
+      express.static(this.config.get('STATIC_DIRECTORY_PATH'))
+    );
 
     const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
@@ -52,6 +58,7 @@ export default class Application{
 
   public registerExceptionFilters() {
     this.expressApp.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+    this.expressApp.use(cors());
   }
 
   public async init() {
@@ -72,6 +79,6 @@ export default class Application{
     this.registerRoutes();
     this.registerExceptionFilters();
     this.expressApp.listen(this.config.get('PORT'));
-    this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 }

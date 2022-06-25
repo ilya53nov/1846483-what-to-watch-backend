@@ -9,9 +9,6 @@ export default class CreateUserDto {
   public name!: string;
 
   @IsOptional()
-  public avatarPath!: string;
-
-  @IsOptional()
   public favoriteFilms!: string[];
 
   @IsString({message: 'password is required'})

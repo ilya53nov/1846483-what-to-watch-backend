@@ -34,6 +34,7 @@ const ratingSum: ValidationInterface = {
 
 const previewVideoLink: ValidationInterface = {
   required: true,
+  default: '',
 };
 
 const videoLink: ValidationInterface = {
@@ -61,10 +62,12 @@ const user: ValidationInterface = {
 
 const posterImage: ValidationInterface = {
   required: true,
+  default: '',
 };
 
 const backgroundImage: ValidationInterface = {
   required: true,
+  default: '',
 };
 
 const backgroundColor: ValidationInterface = {

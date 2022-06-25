@@ -19,14 +19,17 @@ import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.m
 import CommentDto from '../comment/dto/comment.dto.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import CreateCommentDto from '../comment/dto/create-comment.dto.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
+//import UploadImageDto from './dto/upload-image.dto.js';
 
 export default class FilmController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for FilmController...');
 
@@ -139,6 +142,7 @@ export default class FilmController extends Controller {
   ): Promise<void> {
     const {filmId} = params;
     await this.filmService.deleteById(filmId);
+    await this.commentService.deleteByFilmId(filmId);
 
     this.noContent(res);
   }
@@ -175,4 +179,13 @@ export default class FilmController extends Controller {
 
     this.created(res, fillDTO(CommentDto, comment));
   }
+
+/* TODO
+  public async uploadPosterImage(req: Request<core.ParamsDictionary | ParamsFilm>, res: Response) {
+    const {filmId} = req.params;
+    const updateDto = { posterImage: req.file?.filename };
+    await this.filmService.updateById(filmId, updateDto);
+    this.created(res, fillDTO(UploadImageDto, {updateDto}));
+  }
+*/
 }

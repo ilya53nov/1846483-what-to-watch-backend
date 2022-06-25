@@ -2,6 +2,7 @@ import { DocumentType } from '@typegoose/typegoose';
 
 import CreateUserDto from './dto/create-user.dto.js';
 import LoginUserDto from './dto/login-user.dto.js';
+import UpdateUserDto from './dto/update-user.dto.js';
 import { UserEntity } from './user.entity.js';
 
 export interface UserServiceInterface {
@@ -13,4 +14,5 @@ export interface UserServiceInterface {
   deleteFromFavoriteFilm(userId: string, filmId: string): Promise<DocumentType<UserEntity> | null>;
   addToFavoriteFilm(userId: string, filmId: string): Promise<DocumentType<UserEntity> | null>;
   getFavoriteFilms(userId: string): Promise<DocumentType<UserEntity> | null>;
+  updateById(userId: string, dto: UpdateUserDto): Promise<DocumentType<UserEntity> | null>;
 }

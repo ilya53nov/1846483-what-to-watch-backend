@@ -14,15 +14,17 @@ import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.m
 import { FilmServiceInterface } from './film-service.interface.js';
 import SummaryFilmDto from './dto/summary-film.dto.js';
 import { fillDTO } from '../../utils/common.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 
 @injectable()
 export default class FavoriteFilmController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for FavoriteFilmController...');
 

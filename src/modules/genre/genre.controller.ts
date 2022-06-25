@@ -10,6 +10,7 @@ import { Genre } from '../../types/genre.enum.js';
 import { fillDTO } from '../../utils/common.js';
 import SummaryFilmDto from '../film/dto/summary-film.dto.js';
 import { GenreServiceInterface } from './genre-service.interface.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 
 type ParamsGetFilm = {
   genre: string;
@@ -18,9 +19,10 @@ type ParamsGetFilm = {
 export default class GenreController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.GenreServiceInterface) private readonly genreService: GenreServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for GenreController...');
 

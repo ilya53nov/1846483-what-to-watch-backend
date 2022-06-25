@@ -22,4 +22,12 @@ export default class CommentService implements CommentServiceInterface {
       .find({filmId})
       .populate('userId');
   }
+
+  public async deleteByFilmId(filmId: string): Promise<number> {
+    const result = await this.commentModel
+      .deleteMany({filmId})
+      .exec();
+
+    return result.deletedCount;
+  }
 }

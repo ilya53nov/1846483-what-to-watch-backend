@@ -4,10 +4,11 @@ import { inject, injectable } from 'inversify';
 
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { Component } from '../../types/component.types.js';
+import { SortType } from '../../types/sort-type.enum.js';
 import createFilmDto from './dto/create-film.dto.js';
 import FilmDto from './dto/film.dto.js';
 import { FilmServiceInterface } from './film-service.interface.js';
-import { FIELD_FOR_SORTING_PUBLICATION_DATE, MAX_FILM_COUNT, USER } from './film.constants.js';
+import { MAX_FILM_COUNT, USER } from './film.constants.js';
 import { FilmEntity } from './film.entity.js';
 
 @injectable()
@@ -37,7 +38,7 @@ export default class FilmService implements FilmServiceInterface {
     return this.filmModel
       .find()
       .limit(MAX_FILM_COUNT)
-      .sort(`-${FIELD_FOR_SORTING_PUBLICATION_DATE}`)
+      .sort({publicationDate: SortType.Down})
       .populate([USER])
       .exec();
   }
