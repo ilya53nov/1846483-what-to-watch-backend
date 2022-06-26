@@ -10,7 +10,7 @@ POST http://localhost:4555/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans3@overlook.net",
+  "email": "torans1@overlook.net",
   "avatarPath": "torrance.png",
   "name": "Jack",
   "password": "shining"
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ## Проверка токена пользователя
 GET http://localhost:4555/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczNAb3Zlcmxvb2submV0IiwiaWQiOiI2MmI2Y2QyMjEyNGI5Zjk0NjA0MzFkZDQiLCJpYXQiOjE2NTYxNDcyNDQsImV4cCI6MTY1NjMyMDA0NH0.wkDOvX8BmtLcbNpZ2DIfoqn-VTsdas5DYP13bVIGv9I
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczFAb3Zlcmxvb2submV0IiwiaWQiOiI2MmI4OWIwZDVlNTFhNjU1MjAzMDAyY2EiLCJpYXQiOjE2NTYyNjU3MjYsImV4cCI6MTY1NjQzODUyNn0.7YZVB2qcE9WK98ZDHoHV9xg7yxpA-29eCwklXuQ90AI
 
 ###
 
@@ -30,7 +30,7 @@ POST http://localhost:4555/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans3@overlook.net",  
+  "email": "torans1@overlook.net",  
   "password": "shining"
 }
 
@@ -73,7 +73,7 @@ GET http://localhost:4555/films/62b2d651f0e72b2a53289fc3 HTTP/1.1
 
 POST http://localhost:4555/films HTTP/1.1
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczNAb3Zlcmxvb2submV0IiwiaWQiOiI2MmI2Y2QyMjEyNGI5Zjk0NjA0MzFkZDQiLCJpYXQiOjE2NTYxNDcyNDQsImV4cCI6MTY1NjMyMDA0NH0.wkDOvX8BmtLcbNpZ2DIfoqn-VTsdas5DYP13bVIGv9I
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczFAb3Zlcmxvb2submV0IiwiaWQiOiI2MmI4YzY0MmIyMGVlNDRkYjc4MmU0MjkiLCJpYXQiOjE2NTYyNzc2NTAsImV4cCI6MTY1NjQ1MDQ1MH0.MJbLr-ULC4XogdqxIzzYXqVT0Gadmjtz7qDvehXH3sw
 
 {
   "title": "Властелин колец: Возвращение короля",
@@ -87,8 +87,7 @@ authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczNAb3Zlcmxvb2sub
   "actors": ["Уилл Смит", "Джеки Чан"],
   "director": "Стивен Аллан Спилберг",
   "runTime": 140,
-  "commentCount": 0,
-  "user": "62b2dd60d1a55f72823e981e",
+  "commentCount": 0,  
   "posterImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "backgroundImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
   "backgroundColor": "#04ff00"
@@ -105,9 +104,9 @@ authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczFAb3Zlcmxvb2sub
 
 ## Редактирование карточки фильма
 
-PUT  http://localhost:4555/films/62b2d651f0e72b2a53289fc3 HTTP/1.1
+PUT  http://localhost:4555/films/62b8caa002c8222017eac641 HTTP/1.1
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczFAb3Zlcmxvb2submV0IiwiaWQiOiI2MmI1NWI5ZjRiYzRiMTA0YzY1NjU3OWQiLCJpYXQiOjE2NTYwNTI2NDIsImV4cCI6MTY1NjIyNTQ0Mn0.Vuygb0oeI3i1HiM4G6tTRPugKSIRFxorAC5MNhR6DlI
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczFAb3Zlcmxvb2submV0IiwiaWQiOiI2MmI4YzY0MmIyMGVlNDRkYjc4MmU0MjkiLCJpYXQiOjE2NTYyNzY1NTMsImV4cCI6MTY1NjQ0OTM1M30.N-I4QsyxmxaYOxvJu0x2mZLrOaRSgHiECEpG5FYoACA
 
 {
   "title": "Властелин колец: Возвращение короля 2",

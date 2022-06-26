@@ -41,6 +41,7 @@ export abstract class Controller implements ControllerInterface {
 
   protected addStaticPath(data: UnknownObject): void {
     const fullServerPath = getFullServerPath(this.configService.get('HOST'), this.configService.get('PORT'));
+
     transformObject(
       STATIC_RESOURCE_FIELDS,
       `${fullServerPath}/${this.configService.get('STATIC_DIRECTORY_PATH')}`,

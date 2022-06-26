@@ -5,4 +5,5 @@ export enum MainRoute {
   Upload = '/upload',
   Comments = '/comments',
   Genres = '/genres',
+  Static = '/static',
 }

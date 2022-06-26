@@ -48,7 +48,7 @@ export default class Application{
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
     this.expressApp.use(
-      '/static',
+      MainRoute.Static,
       express.static(this.config.get('STATIC_DIRECTORY_PATH'))
     );
 

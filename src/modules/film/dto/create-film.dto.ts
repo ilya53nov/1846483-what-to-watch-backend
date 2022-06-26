@@ -1,4 +1,4 @@
-import { IsMongoId, MinLength, MaxLength, IsDateString, IsEnum, IsInt, IsString, IsArray } from 'class-validator';
+import { MinLength, MaxLength, IsDateString, IsEnum, IsInt, IsString, IsArray } from 'class-validator';
 
 import { Genre } from '../../../types/genre.enum.js';
 import { User } from '../../../types/user.type.js';
@@ -46,7 +46,6 @@ export default class CreateFilmDto {
   @IsInt()
   public commentCount!: number;
 
-  @IsMongoId({message: 'user field must be of valid identificator'})
   public user!: User;
 
   @IsString({message: 'posterImage is required'})

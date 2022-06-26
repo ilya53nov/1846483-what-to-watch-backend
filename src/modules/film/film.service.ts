@@ -5,7 +5,7 @@ import { inject, injectable } from 'inversify';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { Component } from '../../types/component.types.js';
 import { SortType } from '../../types/sort-type.enum.js';
-import createFilmDto from './dto/create-film.dto.js';
+import CreateFilmDto from './dto/create-film.dto.js';
 import FilmDto from './dto/film.dto.js';
 import { FilmServiceInterface } from './film-service.interface.js';
 import { MAX_FILM_COUNT, USER } from './film.constants.js';
@@ -18,13 +18,13 @@ export default class FilmService implements FilmServiceInterface {
     @inject(Component.FilmModel) private readonly filmModel: ModelType<FilmEntity>
   ) {}
 
-  public async create(dto: createFilmDto): Promise<DocumentType<FilmEntity>> {
+  public async create(dto: CreateFilmDto): Promise<DocumentType<FilmEntity>> {
     const film = new FilmEntity(dto);
 
     const result = await this.filmModel.create(film);
     this.logger.info(`New film created: ${dto.title}`);
 
-    return result;
+    return result.populate('user');
   }
 
   public async findById(id: string): Promise<DocumentType<FilmEntity> | null> {
@@ -49,6 +49,21 @@ export default class FilmService implements FilmServiceInterface {
       .populate([USER])
       .exec();
   }
+
+  // TODO
+  /*
+  public async isFilmByUser(filmId: string, userId: string): Promise<Boolean> {
+    const finded = await this.filmModel.find({_id: filmId, user: userId}).exec();
+
+    console.log(finded, filmId, userId);
+
+    if (finded.length > 0) {
+      return true;
+    }
+
+    return false;
+  }
+  */
 
   public async deleteById(id: string): Promise<DocumentType<FilmEntity> | null> {
     return this.filmModel

@@ -20,6 +20,7 @@ import CommentDto from '../comment/dto/comment.dto.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import CreateCommentDto from '../comment/dto/create-comment.dto.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import { UserServiceInterface } from '../user/user-service.interface.js';
 //import UploadImageDto from './dto/upload-image.dto.js';
 
 export default class FilmController extends Controller {
@@ -28,6 +29,7 @@ export default class FilmController extends Controller {
     @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
+    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
   ) {
     super(logger, configService);
 
@@ -117,10 +119,11 @@ export default class FilmController extends Controller {
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateFilmDto>,
+    {body, user}: Request<Record<string, unknown>, Record<string, unknown>, CreateFilmDto>,
     res: Response
   ): Promise<void> {
-    const createdFilm = await this.filmService.create(body);
+    const findedUser = await this.userService.findById(user.id);
+    const createdFilm = await this.filmService.create({...body, user: findedUser!});
 
     this.created(res, fillDTO(FilmDto, createdFilm));
   }
@@ -151,7 +154,10 @@ export default class FilmController extends Controller {
     {body, params}: Request<core.ParamsDictionary | ParamsFilm, Record<string, unknown>, FilmDto>,
     res: Response
   ): Promise<void> {
-    const updatedFilm = await this.filmService.updateById(params.filmId, body);
+
+    const {filmId} = params;
+
+    const updatedFilm = await this.filmService.updateById(filmId, body);
 
     this.ok(res, fillDTO(FilmDto, updatedFilm));
   }

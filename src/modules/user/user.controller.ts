@@ -14,9 +14,11 @@ import { ModuleController } from '../../types/controller.enum.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { createJWT, fillDTO } from '../../utils/common.js';
 import CreateUserDto from './dto/create-user.dto.js';
+import CreatedUserDto from './dto/created-user.dto.js';
 import LoggedUserDto from './dto/logged-user.dto.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import UploadUserAvatarDto from './dto/upload-user-avatar.dto.js';
+import UserDto from './dto/user.dto.js';
 import { UserServiceInterface } from './user-service.interface.js';
 import { JWT_ALGORITM } from './user.constant.js';
 
@@ -81,10 +83,9 @@ export default class UserController extends Controller {
 
     const result = await this.userService.create(body, this.configService.get('SALT'));
 
-    this.send(
+    this.created(
       res,
-      StatusCodes.CREATED,
-      fillDTO(CreateUserDto, result)
+      fillDTO(CreatedUserDto, result)
     );
   }
 
@@ -109,6 +110,7 @@ export default class UserController extends Controller {
     );
 
     const loggedUserDto = fillDTO(LoggedUserDto, user);
+
     this.ok(res, {...loggedUserDto, token});
   }
 
@@ -122,6 +124,10 @@ export default class UserController extends Controller {
   public async checkAuthenticate(req: Request, res: Response) {
     const user = await this.userService.findByEmail(req.user.email);
 
-    this.ok(res, fillDTO(LoggedUserDto, user));
+    if (user) {
+      this.ok(res, fillDTO(UserDto, user));
+    }
+
+
   }
 }
