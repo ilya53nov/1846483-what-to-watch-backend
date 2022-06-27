@@ -21,6 +21,10 @@ import { CommentServiceInterface } from '../comment/comment-service.interface.js
 import CreateCommentDto from '../comment/dto/create-comment.dto.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import { UserServiceInterface } from '../user/user-service.interface.js';
+import HttpError from '../../common/errors/http-error.js';
+import { StatusCodes } from 'http-status-codes';
+import { ModuleController } from '../../types/controller.enum.js';
+
 //import UploadImageDto from './dto/upload-image.dto.js';
 
 export default class FilmController extends Controller {
@@ -55,7 +59,7 @@ export default class FilmController extends Controller {
     this.addRoute({
       path: '/promo',
       method: HttpMethod.Get,
-      handler: this.index
+      handler: this.getPromoFilm
     });
 
     this.addRoute({
@@ -112,7 +116,11 @@ export default class FilmController extends Controller {
 
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
+  public async index(
+    _req: Request,
+    res: Response
+  ): Promise<void> {
+
     const films = await this.filmService.find();
 
     this.ok(res, fillDTO(SummaryFilmDto, films));
@@ -139,11 +147,31 @@ export default class FilmController extends Controller {
     this.ok(res, fillDTO(FilmDto, film));
   }
 
+  public async getPromoFilm(
+    _req: Request,
+    res: Response
+  ): Promise<void> {
+
+    const promoFilm = await this.filmService.getPromoFilm();
+    this.ok(res, fillDTO(FilmDto, promoFilm));
+  }
+
   public async delete(
-    {params}: Request<core.ParamsDictionary | ParamsFilm>,
+    {params, user}: Request<core.ParamsDictionary | ParamsFilm>,
     res: Response
   ): Promise<void> {
     const {filmId} = params;
+
+    const isFilmByUser = await this.filmService.isFilmByUser(filmId, user.id);
+
+    if (!isFilmByUser) {
+      throw new HttpError(
+        StatusCodes.CONFLICT,
+        `Film id «${filmId}» is not by user id «${user.id}».`,
+        ModuleController.Film
+      );
+    }
+
     await this.filmService.deleteById(filmId);
     await this.commentService.deleteByFilmId(filmId);
 
@@ -151,15 +179,21 @@ export default class FilmController extends Controller {
   }
 
   public async update(
-    {body, params}: Request<core.ParamsDictionary | ParamsFilm, Record<string, unknown>, FilmDto>,
+    {body, params, user}: Request<core.ParamsDictionary | ParamsFilm, Record<string, unknown>, FilmDto>,
     res: Response
   ): Promise<void> {
 
     const {filmId} = params;
 
-    const updatedFilm = await this.filmService.updateById(filmId, body);
+    const isFilmByUser = await this.filmService.isFilmByUser(filmId, user.id);
 
-    this.ok(res, fillDTO(FilmDto, updatedFilm));
+    if (isFilmByUser) {
+      const updatedFilm = await this.filmService.updateById(filmId, body);
+
+      this.ok(res, fillDTO(FilmDto, updatedFilm));
+    }
+
+
   }
 
   public async getComments(

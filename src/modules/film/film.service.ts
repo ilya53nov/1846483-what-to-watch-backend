@@ -8,7 +8,7 @@ import { SortType } from '../../types/sort-type.enum.js';
 import CreateFilmDto from './dto/create-film.dto.js';
 import FilmDto from './dto/film.dto.js';
 import { FilmServiceInterface } from './film-service.interface.js';
-import { MAX_FILM_COUNT, USER } from './film.constants.js';
+import { DEFAULT_COMMENT_COUNT, DEFAULT_RATING, MAX_FILM_COUNT, USER } from './film.constants.js';
 import { FilmEntity } from './film.entity.js';
 
 @injectable()
@@ -19,12 +19,12 @@ export default class FilmService implements FilmServiceInterface {
   ) {}
 
   public async create(dto: CreateFilmDto): Promise<DocumentType<FilmEntity>> {
-    const film = new FilmEntity(dto);
+    const film = new FilmEntity({...dto, rating: DEFAULT_RATING, commentCount: DEFAULT_COMMENT_COUNT});
 
     const result = await this.filmModel.create(film);
     this.logger.info(`New film created: ${dto.title}`);
 
-    return result.populate('user');
+    return result.populate(USER);
   }
 
   public async findById(id: string): Promise<DocumentType<FilmEntity> | null> {
@@ -34,13 +34,19 @@ export default class FilmService implements FilmServiceInterface {
       .exec();
   }
 
-  public async find(): Promise<DocumentType<FilmEntity>[]> {
+  public async find(count: number = MAX_FILM_COUNT): Promise<DocumentType<FilmEntity>[]> {
     return this.filmModel
       .find()
-      .limit(MAX_FILM_COUNT)
+      .limit(count)
       .sort({publicationDate: SortType.Down})
       .populate([USER])
       .exec();
+  }
+
+  public async getPromoFilm(): Promise<DocumentType<FilmEntity> | null> {
+    const films = await this.find();
+
+    return films[0];
   }
 
   public async findByIdItems(idItems: string[]): Promise<DocumentType<FilmEntity>[]> {
@@ -50,12 +56,8 @@ export default class FilmService implements FilmServiceInterface {
       .exec();
   }
 
-  // TODO
-  /*
-  public async isFilmByUser(filmId: string, userId: string): Promise<Boolean> {
+  public async isFilmByUser(filmId: string, userId: string): Promise<boolean> {
     const finded = await this.filmModel.find({_id: filmId, user: userId}).exec();
-
-    console.log(finded, filmId, userId);
 
     if (finded.length > 0) {
       return true;
@@ -63,7 +65,6 @@ export default class FilmService implements FilmServiceInterface {
 
     return false;
   }
-  */
 
   public async deleteById(id: string): Promise<DocumentType<FilmEntity> | null> {
     return this.filmModel
