@@ -6,6 +6,8 @@ import { StatusCodes } from 'http-status-codes';
 import { MiddlewareInterface } from '../../types/middleware.interface.js';
 import HttpError from '../errors/http-error.js';
 import { UTF_8 } from '../../const.js';
+import { Middleware } from '../../types/middleware.enum.js';
+import { MiddlewareErrorMessage } from './middleware-error-message.enum.js';
 
 export class AuthenticateMiddleware implements MiddlewareInterface {
   constructor(private readonly jwtSecret: string) {}
@@ -27,8 +29,8 @@ export class AuthenticateMiddleware implements MiddlewareInterface {
 
       return next(new HttpError(
         StatusCodes.UNAUTHORIZED,
-        'Invalid token',
-        'AuthenticateMiddleware')
+        MiddlewareErrorMessage.Authenticate,
+        Middleware.Authenticate)
       );
     }
   }

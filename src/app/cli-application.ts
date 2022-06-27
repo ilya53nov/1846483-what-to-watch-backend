@@ -1,5 +1,5 @@
+import { COMMAND_START_SYMBOL } from '../cli-command/cli-command.constant.js';
 import { CliCommandInterface } from '../cli-command/cli-command.interface.js';
-import { COMMAND_START_SYMBOL } from '../const.js';
 import { Command } from '../types/command.enum.js';
 
 type ParsedCommand = {

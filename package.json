@@ -18,7 +18,8 @@
     "clean": "rimraf dist",
     "ts": "ts-node",
     "mock:server": "json-server ./mocks/mock-server-data.json --port 3123",
-    "debug": "ts-node"
+    "debug": "ts-node",
+    "cli": "npm run ts ./src/cli.ts"
   },
   "devDependencies": {
     "@types/convict": "^6.1.1",

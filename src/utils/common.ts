@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import {plainToInstance} from 'class-transformer';
 import {ClassConstructor} from 'class-transformer/types/interfaces/class-constructor.type.js';
 
-import { EXPIRATION_TIME, LINE_BREAK_CHARACTER, TAB_CHARACTER, UTF_8 } from '../const.js';
+import { DECIMAL_NUMBER_SYSTEM, EXPIRATION_TIME, LINE_BREAK_CHARACTER, TAB_CHARACTER, UTF_8 } from '../const.js';
 import { Film } from '../types/film.type.js';
 import { Genre } from '../types/genre.enum.js';
 import { UnknownObject } from '../types/unknown-object.type.js';
@@ -11,9 +11,6 @@ import { DEFAULT_STATIC_IMAGES } from '../app/application.constant.js';
 import { ValidationErrorField } from '../types/validation-error-field.type.js';
 import { ValidationError } from 'class-validator/types/validation/ValidationError.js';
 import { ServiceError } from '../types/service-error.enum.js';
-
-
-const DECIMAL_NUMBER_SYSTEM = 10;
 
 export const createCard = (row: string) => {
   const tokens = row.replace(LINE_BREAK_CHARACTER, ''). split(TAB_CHARACTER);

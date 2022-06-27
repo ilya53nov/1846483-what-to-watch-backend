@@ -11,6 +11,7 @@ import { ConfigInterface } from '../config/config.interface.js';
 import { UnknownObject } from '../../types/unknown-object.type.js';
 import { getFullServerPath, transformObject } from '../../utils/common.js';
 import { STATIC_RESOURCE_FIELDS } from '../../app/application.constant.js';
+import { APPLICATION_JSON } from '../../const.js';
 
 @injectable()
 export abstract class Controller implements ControllerInterface {
@@ -52,7 +53,7 @@ export abstract class Controller implements ControllerInterface {
 
   public send<T>(res: Response, statusCode: number, data?: T): void {
     res
-      .type('application/json')
+      .type(APPLICATION_JSON)
       .status(statusCode);
 
     if (data) {

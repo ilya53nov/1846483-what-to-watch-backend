@@ -1,13 +1,11 @@
 import dayjs from 'dayjs';
-
 import { TAB_CHARACTER } from '../../const.js';
+
 import { Genre } from '../../types/genre.enum.js';
 import { MockData } from '../../types/mock-data.type.js';
 import { generateRandomValue, getRandomItem, getRandomItems } from '../../utils/random.js';
+import { FIRST_WEEK_DAY, LAST_WEEK_DAY } from './card-generator.constant.js';
 import { CardGeneratorInterface } from './card-generator.interface.js';
-
-const FIRST_WEEK_DAY = 1;
-const LAST_WEEK_DAY = 7;
 
 export class CardGenerator implements CardGeneratorInterface {
   constructor(private readonly mockData: MockData) {}

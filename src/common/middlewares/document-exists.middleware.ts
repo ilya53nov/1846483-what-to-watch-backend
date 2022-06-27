@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 import { MiddlewareInterface } from '../../types/middleware.interface.js';
 import HttpError from '../errors/http-error.js';
 import { DocumentExistsInterface } from '../../types/document-exists.interface.js';
+import { Middleware } from '../../types/middleware.enum.js';
 
 export class DocumentExistsMiddleware implements MiddlewareInterface {
   constructor(
@@ -18,7 +19,7 @@ export class DocumentExistsMiddleware implements MiddlewareInterface {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
         `${this.entityName} with ${documentId} not found.`,
-        'DocumentExistsMiddleware'
+        Middleware.DocumentExists
       );
     }
 

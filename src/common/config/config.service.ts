@@ -6,6 +6,7 @@ import { LoggerInterface } from '../logger/logger.interface.js';
 import { ConfigInterface } from './config.interface.js';
 import { configSchema, ConfigSchema } from './config.schema.js';
 import { Component } from '../../types/component.types.js';
+import { ENV_FILE_FOUND_MESSAGE, ENV_FILE_NOT_EXISTS_MESSAGE } from './config.constant.js';
 
 @injectable()
 export default class ConfigService implements ConfigInterface{
@@ -18,15 +19,14 @@ export default class ConfigService implements ConfigInterface{
     const parsedOutput = config();
 
     if (parsedOutput.error) {
-      throw new Error('Can\'t read .env file. Perhaps the file does not exists.');
+      throw new Error(ENV_FILE_NOT_EXISTS_MESSAGE);
     }
 
     configSchema.load({});
     configSchema.validate({allowed: 'strict', output: this.logger.error});
 
     this.config = configSchema.getProperties();
-    this.logger.info('.env file found and successfully parsed!');
-
+    this.logger.info(ENV_FILE_FOUND_MESSAGE);
   }
 
   public get<T extends keyof ConfigSchema>(key: T) {
