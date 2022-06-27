@@ -213,7 +213,7 @@ paths:
         '404':
           description: Фильм не найден
           content: {}   
-  /comments/{filmId}:
+  /films/{filmId}/comments:
     get:
       tags:
         - comment
