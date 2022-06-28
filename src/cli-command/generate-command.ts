@@ -2,9 +2,10 @@ import got from 'got';
 
 import { CardGenerator } from '../common/card-generator/card-generator.js';
 import TSVFileWriter from '../common/file-writer/tsv-file-writer.js';
-import { COMMAND_START_SYMBOL } from '../const.js';
+import { DECIMAL_NUMBER_SYSTEM } from '../const.js';
 import { Command } from '../types/command.enum.js';
 import { MockData } from '../types/mock-data.type.js';
+import { COMMAND_START_SYMBOL } from './cli-command.constant.js';
 import { CliCommandInterface } from './cli-command.interface.js';
 
 export default class GenerateCommand implements CliCommandInterface {
@@ -13,7 +14,7 @@ export default class GenerateCommand implements CliCommandInterface {
 
   public async execute(...parameters: string[]): Promise<void> {
     const [count, filepath, url] = parameters;
-    const cardCount = Number.parseInt(count, 10);
+    const cardCount = Number.parseInt(count, DECIMAL_NUMBER_SYSTEM);
 
     try {
       this.initialData = await got.get(url).json();

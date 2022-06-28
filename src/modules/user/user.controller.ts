@@ -14,8 +14,10 @@ import { ModuleController } from '../../types/controller.enum.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { createJWT, fillDTO } from '../../utils/common.js';
 import CreateUserDto from './dto/create-user.dto.js';
+import CreatedUserDto from './dto/created-user.dto.js';
 import LoggedUserDto from './dto/logged-user.dto.js';
 import LoginUserDto from './dto/login-user.dto.js';
+import UploadUserAvatarDto from './dto/upload-user-avatar.dto.js';
 import UserDto from './dto/user.dto.js';
 import { UserServiceInterface } from './user-service.interface.js';
 import { JWT_ALGORITM } from './user.constant.js';
@@ -25,9 +27,9 @@ export default class UserController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
-    @inject(Component.ConfigInterface) private readonly configService: ConfigInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
   ) {
-    super(logger);
+    super(logger, configService);
     this.logger.info('Register routes for UserController...');
 
     this.addRoute({
@@ -46,6 +48,12 @@ export default class UserController extends Controller {
       middlewares: [
         new ValidateDtoMiddleware(LoginUserDto),
       ]
+    });
+
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.checkAuthenticate
     });
 
     this.addRoute({
@@ -75,10 +83,9 @@ export default class UserController extends Controller {
 
     const result = await this.userService.create(body, this.configService.get('SALT'));
 
-    this.send(
+    this.created(
       res,
-      StatusCodes.CREATED,
-      fillDTO(UserDto, result)
+      fillDTO(CreatedUserDto, result)
     );
   }
 
@@ -102,12 +109,25 @@ export default class UserController extends Controller {
       { email: user.email, id: user.id}
     );
 
-    this.ok(res, fillDTO(LoggedUserDto, {email: user.email, token}));
+    const loggedUserDto = fillDTO(LoggedUserDto, user);
+
+    this.ok(res, {...loggedUserDto, token});
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path
-    });
+    const {userId} = req.params;
+    const uploaFile = {avatarPath: req.file?.filename};
+    await this.userService.updateById(userId, uploaFile);
+    this.created(res, fillDTO(UploadUserAvatarDto, uploaFile));
+  }
+
+  public async checkAuthenticate(req: Request, res: Response) {
+    const user = await this.userService.findByEmail(req.user.email);
+
+    if (user) {
+      this.ok(res, fillDTO(UserDto, user));
+    }
+
+
   }
 }

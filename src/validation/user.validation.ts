@@ -13,6 +13,10 @@ const avatarPath: ValidationInterface = {
   required: false,
 };
 
+const favoriteFilms: ValidationInterface = {
+  required: false,
+};
+
 const password: ValidationInterface = {
   required: true,
 };
@@ -22,4 +26,5 @@ export const UserValidation = {
   email,
   avatarPath,
   password,
+  favoriteFilms,
 };

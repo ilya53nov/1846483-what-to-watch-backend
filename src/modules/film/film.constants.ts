@@ -1,3 +1,7 @@
 export const MAX_FILM_COUNT = 60;
-export const FIELD_FOR_SORTING_PUBLICATION_DATE = 'publicationDate';
+
 export const USER = 'user';
+
+export const DEFAULT_RATING = 0;
+
+export const DEFAULT_COMMENT_COUNT = 0;

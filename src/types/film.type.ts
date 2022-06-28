@@ -8,7 +8,6 @@ export type Film = {
   genre: Genre;
   year: number;
   rating: number;
-  _ratingSum: number;
   previewVideoLink: string;
   videoLink: string;
   actors: string[];

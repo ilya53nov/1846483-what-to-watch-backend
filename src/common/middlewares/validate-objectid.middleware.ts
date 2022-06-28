@@ -4,9 +4,10 @@ import {StatusCodes} from 'http-status-codes';
 
 import {MiddlewareInterface} from '../../types/middleware.interface.js';
 import HttpError from '../errors/http-error.js';
+import { Middleware } from '../../types/middleware.enum.js';
+import { MiddlewareErrorMessage } from './middleware-error-message.enum.js';
 
 const {Types} = mongoose;
-const VALIDATE_OBJECT_ID_MIDDLEWARE = 'ValidateObjectIdMiddleware';
 
 export class ValidateObjectIdMiddleware implements MiddlewareInterface {
   constructor(private param: string) {}
@@ -20,8 +21,8 @@ export class ValidateObjectIdMiddleware implements MiddlewareInterface {
 
     throw new HttpError(
       StatusCodes.BAD_REQUEST,
-      `${objectId} is invalid ObjectID`,
-      VALIDATE_OBJECT_ID_MIDDLEWARE
+      `${objectId} ${MiddlewareErrorMessage.ValidateObjectId}`,
+      Middleware.ValidateObjectId
     );
   }
 }

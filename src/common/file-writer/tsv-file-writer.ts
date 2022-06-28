@@ -1,6 +1,7 @@
 import { createWriteStream, WriteStream } from 'fs';
 
 import { LINE_BREAK_CHARACTER, UTF_8 } from '../../const.js';
+import { HIGH_WATER_MARK } from './file-writer.constant.js';
 import { FileWriterInterface } from './file-writer.interface.js';
 import { Flag } from './flag.enum.js';
 
@@ -12,7 +13,7 @@ export default class TSVFileWriter implements FileWriterInterface {
     this.stream = createWriteStream(this.filename, {
       flags: Flag.W,
       encoding: UTF_8,
-      highWaterMark: 2 ** 16,
+      highWaterMark: HIGH_WATER_MARK,
       autoClose: true,
     });
   }

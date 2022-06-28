@@ -6,7 +6,6 @@ import { EmitEvent } from '../common/file-reader/emit-event.enum.js';
 import TSVFileReader from '../common/file-reader/tsv-file-reader.js';
 import ConsoleLoggerService from '../common/logger/console-logger.service.js';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
-import { COMMAND_START_SYMBOL } from '../const.js';
 import { FilmServiceInterface } from '../modules/film/film-service.interface.js';
 import { FilmModel } from '../modules/film/film.entity.js';
 import FilmService from '../modules/film/film.service.js';
@@ -17,6 +16,7 @@ import { Command } from '../types/command.enum.js';
 import { Film } from '../types/film.type.js';
 import { createCard, getErrorMessage } from '../utils/common.js';
 import { getURI } from '../utils/db.js';
+import { COMMAND_START_SYMBOL } from './cli-command.constant.js';
 import { CliCommandInterface } from './cli-command.interface.js';
 
 export default class ImportCommand implements CliCommandInterface {

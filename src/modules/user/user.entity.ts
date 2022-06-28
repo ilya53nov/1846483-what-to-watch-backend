@@ -26,8 +26,12 @@ export class UserEntity extends TimeStamps implements User {
     this.password = data.password;
   }
 
+
   @prop(UserValidation.avatarPath)
   public avatarPath!: string;
+
+  @prop(UserValidation.favoriteFilms)
+  public favoriteFilms!: string[];
 
   @prop(UserValidation.email)
   public email!: string;

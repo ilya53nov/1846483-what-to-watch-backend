@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { inject, injectable}  from 'inversify';
 import express, { Express } from 'express';
+import cors from 'cors';
 
 import { ConfigInterface } from '../common/config/config.interface.js';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
@@ -12,9 +13,9 @@ import UserController from '../modules/user/user.controller.js';
 import FilmController from '../modules/film/film.controller.js';
 import FavoriteFilmController from '../modules/film/favorite-film.controller.js';
 import { MainRoute } from '../types/route.enum.js';
-import CommentController from '../modules/comment/comment.controller.js';
 import GenreController from '../modules/genre/genre.controller.js';
 import { AuthenticateMiddleware } from '../common/middlewares/authenticate.middleware.js';
+import { getFullServerPath } from '../utils/common.js';
 
 @injectable()
 export default class Application{
@@ -28,7 +29,6 @@ export default class Application{
     @inject(Component.UserController) private userController: UserController,
     @inject(Component.FilmController) private filmController: FilmController,
     @inject(Component.FavoriteFilmController) private favoriteFilmController: FavoriteFilmController,
-    @inject(Component.CommentController) private commentController: CommentController,
     @inject(Component.GenreController) private genreController: GenreController,
   ) {
     this.expressApp = express();
@@ -38,7 +38,6 @@ export default class Application{
     this.expressApp.use(MainRoute.Users, this.userController.router);
     this.expressApp.use(MainRoute.Films, this.filmController.router);
     this.expressApp.use(MainRoute.Favorite, this.favoriteFilmController.router);
-    this.expressApp.use(MainRoute.Comments, this.commentController.router);
     this.expressApp.use(MainRoute.Genres, this.genreController.router);
   }
 
@@ -48,6 +47,10 @@ export default class Application{
       MainRoute.Upload,
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
+    this.expressApp.use(
+      MainRoute.Static,
+      express.static(this.config.get('STATIC_DIRECTORY_PATH'))
+    );
 
     const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
@@ -55,6 +58,7 @@ export default class Application{
 
   public registerExceptionFilters() {
     this.expressApp.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+    this.expressApp.use(cors());
   }
 
   public async init() {
@@ -75,6 +79,6 @@ export default class Application{
     this.registerRoutes();
     this.registerExceptionFilters();
     this.expressApp.listen(this.config.get('PORT'));
-    this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 }

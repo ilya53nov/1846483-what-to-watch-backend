@@ -16,13 +16,26 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { ParamsFilm } from '../../types/params-film.type.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import CommentDto from '../comment/dto/comment.dto.js';
+import { CommentServiceInterface } from '../comment/comment-service.interface.js';
+import CreateCommentDto from '../comment/dto/create-comment.dto.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
+import { UserServiceInterface } from '../user/user-service.interface.js';
+import HttpError from '../../common/errors/http-error.js';
+import { StatusCodes } from 'http-status-codes';
+import { ModuleController } from '../../types/controller.enum.js';
+
+//import UploadImageDto from './dto/upload-image.dto.js';
 
 export default class FilmController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
+    @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
+    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for FilmController...');
 
@@ -46,7 +59,7 @@ export default class FilmController extends Controller {
     this.addRoute({
       path: '/promo',
       method: HttpMethod.Get,
-      handler: this.index
+      handler: this.getPromoFilm
     });
 
     this.addRoute({
@@ -80,19 +93,45 @@ export default class FilmController extends Controller {
       ]
     });
 
+    this.addRoute({
+      path: '/:filmId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments,
+      middlewares: [
+        new ValidateObjectIdMiddleware('filmId'),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ]
+    });
+
+    this.addRoute({
+      path: '/:filmId/comments',
+      method: HttpMethod.Post,
+      handler: this.createComment,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateCommentDto),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ]
+    });
+
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
+  public async index(
+    _req: Request,
+    res: Response
+  ): Promise<void> {
+
     const films = await this.filmService.find();
 
     this.ok(res, fillDTO(SummaryFilmDto, films));
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateFilmDto>,
+    {body, user}: Request<Record<string, unknown>, Record<string, unknown>, CreateFilmDto>,
     res: Response
   ): Promise<void> {
-    const createdFilm = await this.filmService.create(body);
+    const findedUser = await this.userService.findById(user.id);
+    const createdFilm = await this.filmService.create({...body, user: findedUser!});
 
     this.created(res, fillDTO(FilmDto, createdFilm));
   }
@@ -108,22 +147,85 @@ export default class FilmController extends Controller {
     this.ok(res, fillDTO(FilmDto, film));
   }
 
+  public async getPromoFilm(
+    _req: Request,
+    res: Response
+  ): Promise<void> {
+
+    const promoFilm = await this.filmService.getPromoFilm();
+    this.ok(res, fillDTO(FilmDto, promoFilm));
+  }
+
   public async delete(
-    {params}: Request<core.ParamsDictionary | ParamsFilm>,
+    {params, user}: Request<core.ParamsDictionary | ParamsFilm>,
     res: Response
   ): Promise<void> {
     const {filmId} = params;
+
+    const isFilmByUser = await this.filmService.isFilmByUser(filmId, user.id);
+
+    if (!isFilmByUser) {
+      throw new HttpError(
+        StatusCodes.CONFLICT,
+        `Film id «${filmId}» is not by user id «${user.id}».`,
+        ModuleController.Film
+      );
+    }
+
     await this.filmService.deleteById(filmId);
+    await this.commentService.deleteByFilmId(filmId);
 
     this.noContent(res);
   }
 
   public async update(
-    {body, params}: Request<core.ParamsDictionary | ParamsFilm, Record<string, unknown>, FilmDto>,
+    {body, params, user}: Request<core.ParamsDictionary | ParamsFilm, Record<string, unknown>, FilmDto>,
     res: Response
   ): Promise<void> {
-    const updatedFilm = await this.filmService.updateById(params.filmId, body);
 
-    this.ok(res, fillDTO(FilmDto, updatedFilm));
+    const {filmId} = params;
+
+    const isFilmByUser = await this.filmService.isFilmByUser(filmId, user.id);
+
+    if (isFilmByUser) {
+      const updatedFilm = await this.filmService.updateById(filmId, body);
+
+      this.ok(res, fillDTO(FilmDto, updatedFilm));
+    }
+
+
   }
+
+  public async getComments(
+    {params}: Request<core.ParamsDictionary | ParamsFilm, object, object>,
+    res: Response
+  ): Promise<void> {
+
+    const comments = await this.commentService.findByFilmId(params.filmId);
+    this.ok(res, fillDTO(CommentDto, comments));
+  }
+
+  public async createComment(
+    {body, params, user}: Request<core.ParamsDictionary | ParamsFilm , Record<string, unknown>, CreateCommentDto>,
+    res: Response
+  ): Promise<void> {
+
+    const {filmId} = params;
+
+    const comment = await this.commentService.create({...body, userId: user.id, filmId: filmId});
+
+    await this.filmService.incCommentCount(filmId);
+    await this.filmService.updateRating(filmId, body.rating);
+
+    this.created(res, fillDTO(CommentDto, comment));
+  }
+
+/* TODO
+  public async uploadPosterImage(req: Request<core.ParamsDictionary | ParamsFilm>, res: Response) {
+    const {filmId} = req.params;
+    const updateDto = { posterImage: req.file?.filename };
+    await this.filmService.updateById(filmId, updateDto);
+    this.created(res, fillDTO(UploadImageDto, {updateDto}));
+  }
+*/
 }
