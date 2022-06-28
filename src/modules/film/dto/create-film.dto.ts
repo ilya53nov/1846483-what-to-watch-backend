@@ -1,4 +1,4 @@
-import { MinLength, MaxLength, IsDateString, IsEnum, IsInt, IsString, IsArray } from 'class-validator';
+import { MinLength, MaxLength, IsEnum, IsInt, IsString, IsArray } from 'class-validator';
 
 import { Genre } from '../../../types/genre.enum.js';
 import { User } from '../../../types/user.type.js';
@@ -14,7 +14,7 @@ export default class CreateFilmDto {
   @MaxLength(1024, {message: 'Maximum description length must be 1024'})
   public description!: string;
 
-  @IsDateString({}, {message: 'publicationDate must be valid ISO date'})
+  //@IsDateString({}, {message: 'publicationDate must be valid ISO date'})
   public publicationDate!: Date;
 
   @IsEnum(Genre, {message: 'type must be comedy, crime, documentary, drama, horror, family, romance, scifi, thriller'})
@@ -22,8 +22,7 @@ export default class CreateFilmDto {
 
   @IsInt({message: 'year must be an integer'})
   public year!: number;
-
-  //@IsInt({message: 'rating must be an integer'})
+  
   public rating!: number;
 
   @IsString({message: 'previewVideoLink is required'})
@@ -43,7 +42,6 @@ export default class CreateFilmDto {
   @IsInt({message: 'runTime must be an integer'})
   public runTime!: number;
 
-  //@IsInt()
   public commentCount!: number;
 
   public user!: User;

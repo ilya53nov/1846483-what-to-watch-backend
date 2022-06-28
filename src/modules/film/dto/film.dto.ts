@@ -4,13 +4,16 @@ import { Genre } from '../../../types/genre.enum.js';
 import UserDto from '../../user/dto/user.dto.js';
 
 export default class FilmDto {
+  @Expose({ name: 'id'})
+  public id!: string;
+
   @Expose()
   public title!: string;
 
   @Expose()
   public description!: string;
 
-  @Expose()
+  @Expose({ name: 'createdAt'})
   public publicationDate!: Date;
 
   @Expose()

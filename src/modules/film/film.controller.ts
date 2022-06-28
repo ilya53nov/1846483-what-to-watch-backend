@@ -131,6 +131,7 @@ export default class FilmController extends Controller {
     res: Response
   ): Promise<void> {
     const findedUser = await this.userService.findById(user.id);
+    
     const createdFilm = await this.filmService.create({...body, user: findedUser!});
 
     this.created(res, fillDTO(FilmDto, createdFilm));
