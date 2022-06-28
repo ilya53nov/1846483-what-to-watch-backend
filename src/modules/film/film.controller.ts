@@ -25,8 +25,6 @@ import HttpError from '../../common/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import { ModuleController } from '../../types/controller.enum.js';
 
-//import UploadImageDto from './dto/upload-image.dto.js';
-
 export default class FilmController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
@@ -113,7 +111,6 @@ export default class FilmController extends Controller {
         new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
       ]
     });
-
   }
 
   public async index(
@@ -131,7 +128,7 @@ export default class FilmController extends Controller {
     res: Response
   ): Promise<void> {
     const findedUser = await this.userService.findById(user.id);
-    
+
     const createdFilm = await this.filmService.create({...body, user: findedUser!});
 
     this.created(res, fillDTO(FilmDto, createdFilm));
@@ -193,8 +190,6 @@ export default class FilmController extends Controller {
 
       this.ok(res, fillDTO(FilmDto, updatedFilm));
     }
-
-
   }
 
   public async getComments(
@@ -220,13 +215,4 @@ export default class FilmController extends Controller {
 
     this.created(res, fillDTO(CommentDto, comment));
   }
-
-/* TODO
-  public async uploadPosterImage(req: Request<core.ParamsDictionary | ParamsFilm>, res: Response) {
-    const {filmId} = req.params;
-    const updateDto = { posterImage: req.file?.filename };
-    await this.filmService.updateById(filmId, updateDto);
-    this.created(res, fillDTO(UploadImageDto, {updateDto}));
-  }
-*/
 }

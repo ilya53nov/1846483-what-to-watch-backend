@@ -6,7 +6,7 @@ import UserDto from '../../user/dto/user.dto.js';
 export default class SummaryFilmDto {
   @Expose({ name: 'id'})
   public id!: string;
-  
+
   @Expose()
   public title!: string;
 

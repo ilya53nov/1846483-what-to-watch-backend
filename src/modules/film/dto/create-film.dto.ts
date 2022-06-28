@@ -22,7 +22,7 @@ export default class CreateFilmDto {
 
   @IsInt({message: 'year must be an integer'})
   public year!: number;
-  
+
   public rating!: number;
 
   @IsString({message: 'previewVideoLink is required'})
