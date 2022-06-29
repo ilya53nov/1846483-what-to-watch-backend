@@ -11,7 +11,7 @@ type ValidateLenght = {
 
 export interface DtoValidation {
   Message?: string;
-  Lenght?: ValidateLenght;
+  Length?: ValidateLenght;
   Min?: ValidateValue;
   Max?: ValidateValue;
 }

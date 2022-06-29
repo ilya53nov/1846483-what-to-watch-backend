@@ -5,9 +5,9 @@ import { CreateCommentDtoValidation } from '../comment-dto.validation.js';
 export default class CreateCommentDto {
   @IsString({message: CreateCommentDtoValidation.text.Message})
   @Length(
-    CreateCommentDtoValidation.text.Lenght!.min,
-    CreateCommentDtoValidation.text.Lenght!.max,
-    {message: CreateCommentDtoValidation.text.Lenght!.message})
+    CreateCommentDtoValidation.text.Length!.min,
+    CreateCommentDtoValidation.text.Length!.max,
+    {message: CreateCommentDtoValidation.text.Length!.message})
   public text!: string;
 
   @IsInt({message: CreateCommentDtoValidation.rating.Message})

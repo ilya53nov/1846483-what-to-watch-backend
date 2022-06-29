@@ -12,7 +12,7 @@ const DIRECTOR_MAX_LENGTH = 50;
 const title: DtoValidation = {
   Message: 'Title is required',
 
-  Lenght: {
+  Length: {
     min: TITLE_MIN_LENGTH,
     max: TITLE_MAX_LENGTH,
     message: `Min length is ${TITLE_MIN_LENGTH}, max is ${TITLE_MAX_LENGTH}`
@@ -22,7 +22,7 @@ const title: DtoValidation = {
 const description: DtoValidation = {
   Message: 'Description is required',
 
-  Lenght: {
+  Length: {
     min: DESCRIPTION_MIN_LENGTH,
     max: DESCRIPTION_MAX_LENGTH,
     message: `Min length is ${DESCRIPTION_MIN_LENGTH}, max is ${DESCRIPTION_MAX_LENGTH}`
@@ -52,7 +52,7 @@ const actors: DtoValidation = {
 const director: DtoValidation = {
   Message: 'Director is required',
 
-  Lenght: {
+  Length: {
     min: DIRECTOR_MIN_LENGTH,
     max: DIRECTOR_MAX_LENGTH,
     message: `Min length is ${DIRECTOR_MIN_LENGTH}, max is ${DIRECTOR_MAX_LENGTH}`

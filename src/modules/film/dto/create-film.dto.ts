@@ -7,16 +7,16 @@ import { CreateFilmDtoValidaton } from '../film-dto.validation.js';
 export default class CreateFilmDto {
   @IsString({message: CreateFilmDtoValidaton.title.Message})
   @Length(
-    CreateFilmDtoValidaton.title.Lenght!.min,
-    CreateFilmDtoValidaton.title.Lenght!.max,
-    {message: CreateFilmDtoValidaton.title.Lenght!.message})
+    CreateFilmDtoValidaton.title.Length!.min,
+    CreateFilmDtoValidaton.title.Length!.max,
+    {message: CreateFilmDtoValidaton.title.Length!.message})
   public title!: string;
 
   @IsString({message: CreateFilmDtoValidaton.description.Message})
   @Length(
-    CreateFilmDtoValidaton.description.Lenght!.min,
-    CreateFilmDtoValidaton.description.Lenght!.max,
-    {message: CreateFilmDtoValidaton.description.Lenght!.message})
+    CreateFilmDtoValidaton.description.Length!.min,
+    CreateFilmDtoValidaton.description.Length!.max,
+    {message: CreateFilmDtoValidaton.description.Length!.message})
   public description!: string;
 
   public publicationDate!: Date;
@@ -40,9 +40,9 @@ export default class CreateFilmDto {
 
   @IsString({message: CreateFilmDtoValidaton.director.Message})
   @Length(
-    CreateFilmDtoValidaton.director.Lenght!.min,
-    CreateFilmDtoValidaton.director.Lenght!.max,
-    {message: CreateFilmDtoValidaton.director.Lenght!.message})
+    CreateFilmDtoValidaton.director.Length!.min,
+    CreateFilmDtoValidaton.director.Length!.max,
+    {message: CreateFilmDtoValidaton.director.Length!.message})
   public director!: string;
 
   @IsInt({message: CreateFilmDtoValidaton.runTime.Message})

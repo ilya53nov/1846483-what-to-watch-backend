@@ -13,7 +13,7 @@ const email: DtoValidation = {
 const name: DtoValidation = {
   Message: 'Name is required',
 
-  Lenght: {
+  Length: {
     min: NAME_MIN_LENGTH,
     max: NAME_MAX_LENGTH,
     message: `Min length is ${NAME_MIN_LENGTH}, max is ${NAME_MAX_LENGTH}`
@@ -23,7 +23,7 @@ const name: DtoValidation = {
 const password: DtoValidation = {
   Message: 'Password is required',
 
-  Lenght: {
+  Length: {
     min: PASSWORD_MIN_LENGTH,
     max: PASSWORD_MAX_LENGTH,
     message: `Min length is ${PASSWORD_MIN_LENGTH}, max is ${PASSWORD_MAX_LENGTH}`

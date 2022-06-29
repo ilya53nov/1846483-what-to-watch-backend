@@ -8,15 +8,15 @@ export default class CreateUserDto {
 
   @IsString({message: CreateUserDtoValidation.name.Message})
   @Length(
-    CreateUserDtoValidation.name.Lenght!.min,
-    CreateUserDtoValidation.name.Lenght!.max,
-    {message: CreateUserDtoValidation.name.Lenght!.message})
+    CreateUserDtoValidation.name.Length!.min,
+    CreateUserDtoValidation.name.Length!.max,
+    {message: CreateUserDtoValidation.name.Length!.message})
   public name!: string;
 
   @IsString({message: CreateUserDtoValidation.password.Message})
   @Length(
-    CreateUserDtoValidation.password.Lenght!.min,
-    CreateUserDtoValidation.password.Lenght!.max,
-    {message: CreateUserDtoValidation.password.Lenght!.message})
+    CreateUserDtoValidation.password.Length!.min,
+    CreateUserDtoValidation.password.Length!.max,
+    {message: CreateUserDtoValidation.password.Length!.message})
   public password!: string;
 }

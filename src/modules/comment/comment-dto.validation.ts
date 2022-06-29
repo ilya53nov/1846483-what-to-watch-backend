@@ -7,7 +7,7 @@ const RATING_MIN = 1;
 const RATING_MAX = 1024;
 
 const text: DtoValidation = {
-  Lenght: {
+  Length: {
     min: TEXT_MIN_LENGTH,
     max: TEXT_MAX_LENGTH,
     message: `Min length is ${TEXT_MIN_LENGTH}, max is ${TEXT_MAX_LENGTH}`
