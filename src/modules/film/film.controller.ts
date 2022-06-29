@@ -24,6 +24,10 @@ import { UserServiceInterface } from '../user/user-service.interface.js';
 import HttpError from '../../common/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import { ModuleController } from '../../types/controller.enum.js';
+import { MAX_FILM_COUNT } from './film.constants.js';
+import { Entity } from '../../types/entity.enum.js';
+import { FieldMongoDB } from '../../types/field-mongodb.enum.js';
+import { DECIMAL_NUMBER_SYSTEM } from '../../const.js';
 
 export default class FilmController extends Controller {
   constructor(
@@ -65,9 +69,9 @@ export default class FilmController extends Controller {
       method: HttpMethod.Put,
       handler: this.update,
       middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
         new ValidateDtoMiddleware(CreateFilmDto),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
 
@@ -76,8 +80,8 @@ export default class FilmController extends Controller {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
 
@@ -86,8 +90,8 @@ export default class FilmController extends Controller {
       method: HttpMethod.Get,
       handler: this.getFilm,
       middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
 
@@ -96,8 +100,8 @@ export default class FilmController extends Controller {
       method: HttpMethod.Get,
       handler: this.getComments,
       middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
 
@@ -108,17 +112,27 @@ export default class FilmController extends Controller {
       middlewares: [
         new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateCommentDto),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
   }
 
   public async index(
-    _req: Request,
+    req: Request,
     res: Response
   ): Promise<void> {
 
-    const films = await this.filmService.find();
+    const countFromQuery = String(req.query.count).toString();
+
+    let count: number;
+
+    if (countFromQuery) {
+      count = Number.parseInt(countFromQuery, DECIMAL_NUMBER_SYSTEM);
+    } else {
+      count = MAX_FILM_COUNT;
+    }
+
+    const films = await this.filmService.find(count);
 
     this.ok(res, fillDTO(SummaryFilmDto, films));
   }

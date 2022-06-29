@@ -75,7 +75,6 @@ export default class UserService implements UserServiceInterface {
     }
 
     return null;
-
   }
 
   public async addToFavoriteFilm(userId: string, filmId: string): Promise<DocumentType<UserEntity> | null> {

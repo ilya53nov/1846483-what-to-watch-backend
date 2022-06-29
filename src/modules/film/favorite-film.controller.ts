@@ -15,6 +15,8 @@ import { FilmServiceInterface } from './film-service.interface.js';
 import SummaryFilmDto from './dto/summary-film.dto.js';
 import { fillDTO } from '../../utils/common.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import { FieldMongoDB } from '../../types/field-mongodb.enum.js';
+import { Entity } from '../../types/entity.enum.js';
 
 @injectable()
 export default class FavoriteFilmController extends Controller {
@@ -43,8 +45,8 @@ export default class FavoriteFilmController extends Controller {
       handler: this.addToFavorite,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.FilmId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.FilmId),
       ]
     });
 
@@ -54,8 +56,8 @@ export default class FavoriteFilmController extends Controller {
       handler: this.deleteFromFavorite,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.FilmId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.FilmId),
       ]
     });
   }

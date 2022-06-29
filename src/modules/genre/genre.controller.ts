@@ -43,5 +43,4 @@ export default class GenreController extends Controller {
 
     this.ok(res, fillDTO(SummaryFilmDto, films));
   }
-
 }

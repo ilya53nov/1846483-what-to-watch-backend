@@ -1,10 +1,11 @@
 import { Expose, Type } from 'class-transformer';
+import { FieldMongoDB } from '../../../types/field-mongodb.enum.js';
 
 import { Genre } from '../../../types/genre.enum.js';
 import UserDto from '../../user/dto/user.dto.js';
 
 export default class FilmDto {
-  @Expose({ name: 'id'})
+  @Expose({ name: FieldMongoDB.Id})
   public id!: string;
 
   @Expose()
@@ -13,7 +14,7 @@ export default class FilmDto {
   @Expose()
   public description!: string;
 
-  @Expose({ name: 'createdAt'})
+  @Expose({ name: FieldMongoDB.CreatedAt})
   public publicationDate!: Date;
 
   @Expose()
