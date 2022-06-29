@@ -2,6 +2,129 @@
 
 Данный проект создан с помощью [Create React App](https://github.com/facebook/create-react-app).
 
+## Ресурсы
+
+### 1. Пользователи
+---
+Регистрация пользователя
+---
+```
+POST http://localhost:4555/users/register HTTP/1.1
+```
+```
+Content-Type: application/json
+```
+```
+{
+  "email": "default@default.net",
+  "avatarPath": "default.png",
+  "name": "default",
+  "password": "default"
+}
+```
+---
+Проверка токена пользователя
+---
+```
+GET http://localhost:4555/users/login HTTP/1.1
+```
+```
+Authorization: Bearer token
+```
+---
+Авторизация пользователя
+---
+```
+POST http://localhost:4555/users/login HTTP/1.1
+```
+```
+Content-Type: application/json
+```
+```
+{
+  "email": "default@default.net",  
+  "password": "default"
+}
+```
+### 2. Фильмы
+---
+Получить фильмы
+---
+```
+GET http://localhost:4555/films HTTP/1.1
+```
+---
+Получить фильмы определённого жанра
+---
+```
+GET http://localhost:4555/genres/:genre/films HTTP/1.1
+```
+---
+Получить фильм
+---
+```
+GET http://localhost:4555/films/:filmId HTTP/1.1
+```
+---
+Получить промо фильм
+---
+```
+GET http://localhost:4555/films/promo HTTP/1.1
+```
+---
+Создать карточку фильма
+---
+```
+POST http://localhost:4555/films HTTP/1.1
+```
+```
+Content-Type: application/json
+```
+```
+authorization: Bearer token
+```
+```
+{
+  "title": "Властелин колец: Возвращение короля",
+  "description": "В мировом прокате фильм собрал более 1,1 миллиарда долларов[1][2], став вторым фильмом в истории после «Титаника», которому покорился миллиардный рубеж кассовых сборов. На данный момент (март 2021 года) фильм занимает 24 место в списке самых кассовых фильмов за всю историю кинематографа[3]. Фильм получил 11 премий «Оскар» (чем повторил рекорд «Бен-Гура» и «Титаника»), и стал первой картиной в жанре фэнтези, названной Киноакадемией «Лучшим фильмом года»[4]",
+  "genre": "family",
+  "year": 2018,  
+  "previewVideoLink": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
+  "videoLink": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
+  "actors": ["Уилл Смит", "Джеки Чан"],
+  "director": "Стивен Аллан Спилберг",
+  "runTime": 140,  
+  "posterImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
+  "backgroundImage": "https://www.film.ru/sites/default/files/movies/frames/1610598-1577110.jpeg",
+  "backgroundColor": "#04ff00"
+}
+```
+### 3. Комментарии
+---
+Создать комментарий
+---
+```
+POST http://localhost:4555/films/:filmId/comments HTTP/1.1
+```
+```
+Content-Type: application/json
+```
+```
+authorization: Bearer token
+```
+```
+{
+  "text": "Классный фильм!!!",
+  "rating": 9
+}
+```
+---
+Список комментариев к фильму
+---
+```
+GET http://localhost:4555/films/:filmId/comments  HTTP/1.1
+```
+
 ## Структура проекта
 
 ---
