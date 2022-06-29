@@ -28,6 +28,7 @@ import { MAX_FILM_COUNT } from './film.constants.js';
 import { Entity } from '../../types/entity.enum.js';
 import { FieldMongoDB } from '../../types/field-mongodb.enum.js';
 import { DECIMAL_NUMBER_SYSTEM } from '../../const.js';
+import { ControllerRoute } from '../../types/controller-route.enum.js';
 
 export default class FilmController extends Controller {
   constructor(
@@ -42,7 +43,7 @@ export default class FilmController extends Controller {
     this.logger.info('Register routes for FilmController...');
 
     this.addRoute({
-      path: '/',
+      path: ControllerRoute.Main,
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
@@ -52,20 +53,20 @@ export default class FilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/',
+      path: ControllerRoute.Main,
       method: HttpMethod.Get,
       handler: this.index
     });
 
 
     this.addRoute({
-      path: '/promo',
+      path: ControllerRoute.Promo,
       method: HttpMethod.Get,
       handler: this.getPromoFilm
     });
 
     this.addRoute({
-      path: '/:filmId',
+      path: ControllerRoute.FilmId,
       method: HttpMethod.Put,
       handler: this.update,
       middlewares: [
@@ -76,7 +77,7 @@ export default class FilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/:filmId',
+      path: ControllerRoute.FilmId,
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
@@ -86,7 +87,7 @@ export default class FilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/:filmId',
+      path: ControllerRoute.FilmId,
       method: HttpMethod.Get,
       handler: this.getFilm,
       middlewares: [
@@ -96,7 +97,7 @@ export default class FilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/:filmId/comments',
+      path: `${ControllerRoute.FilmId}${ControllerRoute.Comments}`,
       method: HttpMethod.Get,
       handler: this.getComments,
       middlewares: [
@@ -106,7 +107,7 @@ export default class FilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/:filmId/comments',
+      path: `${ControllerRoute.FilmId}${ControllerRoute.Comments}`,
       method: HttpMethod.Post,
       handler: this.createComment,
       middlewares: [

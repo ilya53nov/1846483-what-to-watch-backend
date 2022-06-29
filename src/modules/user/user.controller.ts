@@ -11,6 +11,7 @@ import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middl
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { Component } from '../../types/component.types.js';
+import { ControllerRoute } from '../../types/controller-route.enum.js';
 import { ModuleController } from '../../types/controller.enum.js';
 import { FieldMongoDB } from '../../types/field-mongodb.enum.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
@@ -35,7 +36,7 @@ export default class UserController extends Controller {
     this.logger.info('Register routes for UserController...');
 
     this.addRoute({
-      path: '/register',
+      path: ControllerRoute.Register,
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
@@ -44,7 +45,7 @@ export default class UserController extends Controller {
     });
 
     this.addRoute({
-      path: '/login',
+      path: ControllerRoute.Login,
       method: HttpMethod.Post,
       handler: this.login,
       middlewares: [
@@ -53,13 +54,13 @@ export default class UserController extends Controller {
     });
 
     this.addRoute({
-      path: '/login',
+      path: ControllerRoute.Login,
       method: HttpMethod.Get,
       handler: this.checkAuthenticate
     });
 
     this.addRoute({
-      path: '/:userId/avatar',
+      path: ControllerRoute.Avatar,
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [

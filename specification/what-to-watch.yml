@@ -1,4 +1,6 @@
 openapi: 3.0.0
+
+
 info:
   title: REST API сервер для демо проекта «Что посмотреть».
   description: |-
@@ -7,6 +9,8 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
   version: 1.0.0
+
+
 tags:
   - name: film
     description: Действия с фильмами.
@@ -14,6 +18,8 @@ tags:
     description: Действия с комментариями.
   - name: user
     description: Действия с пользователем.
+
+
 paths:
   /films/:
     post:
@@ -41,6 +47,7 @@ paths:
         '400':
           description: Ошибка тела запроса
           content: {}
+
     get:
       tags:
         - film
@@ -73,6 +80,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SummaryFilm'
+
   /favorite/{filmId}:
     post:
       tags:
@@ -89,12 +97,10 @@ paths:
             type: string
             example: f17c1
       responses:
-        '200':
+        '204':
           description: Фильм добавлен к списку "К просмотру"
           content: {}
-        '404':
-          description: Фильм не найден в списке "К просмотру"
-          content: {}
+
     delete:
       tags:
         - film
@@ -110,12 +116,10 @@ paths:
             type: string
             example: f17c1
       responses:
-        '200':
+        '204':
           description: Фильм удалён из списка "К просмотру"
           content: {}
-        '404':
-          description: Фильм не найден
-          content: {}
+
   /films/promo:
     get:
       tags:
@@ -133,6 +137,7 @@ paths:
         '404':
           description: Промо фильм не найден
           content: {}
+
   /films/{filmId}:
     put:
       tags:
@@ -168,6 +173,7 @@ paths:
         '404':
           description: Фильм не найден
           content: {}
+
     delete:
       tags:
         - film
@@ -183,12 +189,13 @@ paths:
             type: string
             example: f17c1
       responses:
-        '200':
+        '204':
           description: Карточка фильма удалена
           content: {}
         '404':
           description: Фильм не найден
           content: {}
+
     get:
       tags:
         - film
@@ -213,6 +220,7 @@ paths:
         '404':
           description: Фильм не найден
           content: {}   
+
   /films/{filmId}/comments:
     get:
       tags:
@@ -240,6 +248,7 @@ paths:
         '404':
           description: Фильм не найден
           content: {}
+
     post:
       tags:
         - comment
@@ -274,6 +283,7 @@ paths:
         '404':
           description: Фильм не найден
           content: {}
+
   /genres/{genre}:
     get:
       tags:
@@ -299,6 +309,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SummaryFilm'
+
   /users/register:
     post:
       tags:
@@ -314,7 +325,7 @@ paths:
               $ref: '#/components/schemas/RegisterUser'
         required: true
       responses:
-        '200':
+        '201':
           description: Статус авторизации
           content:
             application/json:
@@ -326,8 +337,72 @@ paths:
         '409':
           description: Пользователь с таким email существует
           content: {}
+
+  /user/login:
+    post: 
+      tags:
+        - user
+      summary: Авторизация пользователя
+      description: Авторизация пользователя.
+      operationId: loginUser
+      requestBody:
+        description: Объект, содержащий данные пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUser'
+        required: true
+      responses:
+        '200':
+          description: Статус авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggedUser'
+        '401':
+          description: Ошибка тела запроса
+          content: {}
+        '409':
+          description: Пользователь с таким email существует
+          content: {}
+    
+    get:
+      tags:
+        - user
+      summary: Проверка токена пользователя
+      description: Проверка токена пользователя.
+      operationId: checkAuthenticate
+      requestBody:
+        description: Токен пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoggedUser/properties/token'
+        required: true
+      responses:
+        '200':
+          description: Объект с пользовательскими данными
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggedUser'
+        '401':
+          description: Unauthorized
+          content: {}
+
+
 components:
   schemas:
+    CreatedUser:
+      type: object
+      properties:
+        id:
+          type: string
+          example: eb0af
+        email:
+          type: string
+          example: 1@mail.ru
+
     CreateUser:
       type: object
       properties:
@@ -340,17 +415,35 @@ components:
         avatarPath:
           type: string
           example: https://{url}/static/avatar/1.jpg
+    
+    LoginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 1@mail.ru
         password:
           type: string
-          example: password
+          example: password 
+
+    LoggedUser:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "JlkljO4ik8JKkkiO"
+        email:
+          type: string
+          example: 1@mail.ru
+        avatarPath:
+          type: string
+          example: https://{url}/static/avatar/1.jpg
+
     User:
       allOf:
         - type: object
-          properties:
-            id:
-              type: string
-              example: 2dd9c
         - $ref: '#/components/schemas/CreateUser'
+
     RegisterUser:
       allOf:
         - $ref: '#/components/schemas/CreateUser'
@@ -359,29 +452,22 @@ components:
             password:
               type: string
               example: password
+
     AuthorizationInfo:
       allOf:
-        - $ref: '#/components/schemas/User'
-        - type: object
-          properties:
-            token:
-              type: string
-              example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+        - $ref: '#/components/schemas/CreatedUser'
+
     CreateComment:
       type: object
       properties:
-        description:
+        text:
           type: string
           example: Крутой фильм!
         rating:
           type: integer
           format: int32
           example: 9
-        publicationDate:
-          type: string
-          example: 2021-12-12T21:55:28.147Z
-        author:
-          $ref: '#/components/schemas/User'
+
     Comment:
       allOf:
         - type: object
@@ -389,7 +475,13 @@ components:
             id:
               type: string
               example: eb0af
+            postDate:
+              type: string
+              example: 2021-12-12T21:55:28.147Z
+            user:
+              $ref: '#/components/schemas/User'
         - $ref: '#/components/schemas/CreateComment'
+
     CreateFilm:
       type: object
       properties:
@@ -399,9 +491,6 @@ components:
         description:
           type: string
           example: "Жизнь и репутация Питера Паркера оказываются под угрозой, поскольку Мистерио раскрыл всему миру тайну личности Человека-паука. Пытаясь исправить ситуацию, Питер обращается за помощью к Стивену Стрэнджу, но вскоре всё становится намного опаснее."
-        publicationDate:
-          type: string
-          example: 2021-12-12T21:55:28.147Z
         genre:
           type: string
           enum:
@@ -418,10 +507,6 @@ components:
           type: integer
           format: int32
           example: 2022
-        rating:
-          type: integer
-          format: int32
-          example: 9
         previewVideoLink:
           type: string
           example: https://{url}/static/previewVideoLink/1.jpg
@@ -438,8 +523,6 @@ components:
           type: integer
           format: int32
           example: 152
-        user:
-          $ref: '#/components/schemas/User'
         posterImage:
           type: string
           example: https://{url}/static/posterImage/1.jpg
@@ -449,6 +532,7 @@ components:
         backgroundColor:
           type: string
           example: "#000000"
+
     Film:
       allOf:
         - type: object
@@ -459,24 +543,33 @@ components:
             commentCount:
               type: integer
               format: int32
-              example: 3
+              example: 0
+            rating:
+              type: integer
+              format: int32
+              example: 0 
+            publicationDate:
+              type: string
+              example: 2021-12-12T21:55:28.147Z        
         - $ref: '#/components/schemas/CreateFilm'
+
     SummaryFilm:
       type: object
       properties:
         title:
           $ref: '#/components/schemas/CreateFilm/properties/title'
         publicationDate:
-          $ref: '#/components/schemas/CreateFilm/properties/publicationDate'
+          type: string
+          example: 2021-12-12T21:55:28.147Z  
         genre:
           $ref: '#/components/schemas/CreateFilm/properties/genre'
         previewVideoLink:
           $ref: '#/components/schemas/CreateFilm/properties/previewVideoLink'
-        user:
-          $ref: '#/components/schemas/CreateFilm/properties/user'
         posterImage:
           $ref: '#/components/schemas/CreateFilm/properties/posterImage'
         commentCount:
               type: integer
               format: int32
-              example: 3
+              example: 0
+        user:
+          $ref: '#/components/schemas/User'
