@@ -12,7 +12,7 @@ const description: ValidationInterface = {
 };
 
 const publicationDate: ValidationInterface = {
-  required: true,
+  required: false,
 };
 
 const genre: ValidationInterface = {

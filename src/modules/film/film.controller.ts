@@ -24,8 +24,11 @@ import { UserServiceInterface } from '../user/user-service.interface.js';
 import HttpError from '../../common/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import { ModuleController } from '../../types/controller.enum.js';
-
-//import UploadImageDto from './dto/upload-image.dto.js';
+import { MAX_FILM_COUNT } from './film.constants.js';
+import { Entity } from '../../types/entity.enum.js';
+import { FieldMongoDB } from '../../types/field-mongodb.enum.js';
+import { DECIMAL_NUMBER_SYSTEM } from '../../const.js';
+import { ControllerRoute } from '../../types/controller-route.enum.js';
 
 export default class FilmController extends Controller {
   constructor(
@@ -40,7 +43,7 @@ export default class FilmController extends Controller {
     this.logger.info('Register routes for FilmController...');
 
     this.addRoute({
-      path: '/',
+      path: ControllerRoute.Main,
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
@@ -50,78 +53,87 @@ export default class FilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/',
+      path: ControllerRoute.Main,
       method: HttpMethod.Get,
       handler: this.index
     });
 
 
     this.addRoute({
-      path: '/promo',
+      path: ControllerRoute.Promo,
       method: HttpMethod.Get,
       handler: this.getPromoFilm
     });
 
     this.addRoute({
-      path: '/:filmId',
+      path: ControllerRoute.FilmId,
       method: HttpMethod.Put,
       handler: this.update,
       middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
         new ValidateDtoMiddleware(CreateFilmDto),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
 
     this.addRoute({
-      path: '/:filmId',
+      path: ControllerRoute.FilmId,
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
 
     this.addRoute({
-      path: '/:filmId',
+      path: ControllerRoute.FilmId,
       method: HttpMethod.Get,
       handler: this.getFilm,
       middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
 
     this.addRoute({
-      path: '/:filmId/comments',
+      path: `${ControllerRoute.FilmId}${ControllerRoute.Comments}`,
       method: HttpMethod.Get,
       handler: this.getComments,
       middlewares: [
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
 
     this.addRoute({
-      path: '/:filmId/comments',
+      path: `${ControllerRoute.FilmId}${ControllerRoute.Comments}`,
       method: HttpMethod.Post,
       handler: this.createComment,
       middlewares: [
         new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateCommentDto),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.UserId),
       ]
     });
-
   }
 
   public async index(
-    _req: Request,
+    req: Request,
     res: Response
   ): Promise<void> {
 
-    const films = await this.filmService.find();
+    const countFromQuery = String(req.query.count).toString();
+
+    let count: number;
+
+    if (countFromQuery) {
+      count = Number.parseInt(countFromQuery, DECIMAL_NUMBER_SYSTEM);
+    } else {
+      count = MAX_FILM_COUNT;
+    }
+
+    const films = await this.filmService.find(count);
 
     this.ok(res, fillDTO(SummaryFilmDto, films));
   }
@@ -131,6 +143,7 @@ export default class FilmController extends Controller {
     res: Response
   ): Promise<void> {
     const findedUser = await this.userService.findById(user.id);
+
     const createdFilm = await this.filmService.create({...body, user: findedUser!});
 
     this.created(res, fillDTO(FilmDto, createdFilm));
@@ -192,8 +205,6 @@ export default class FilmController extends Controller {
 
       this.ok(res, fillDTO(FilmDto, updatedFilm));
     }
-
-
   }
 
   public async getComments(
@@ -219,13 +230,4 @@ export default class FilmController extends Controller {
 
     this.created(res, fillDTO(CommentDto, comment));
   }
-
-/* TODO
-  public async uploadPosterImage(req: Request<core.ParamsDictionary | ParamsFilm>, res: Response) {
-    const {filmId} = req.params;
-    const updateDto = { posterImage: req.file?.filename };
-    await this.filmService.updateById(filmId, updateDto);
-    this.created(res, fillDTO(UploadImageDto, {updateDto}));
-  }
-*/
 }

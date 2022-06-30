@@ -1,59 +1,63 @@
-import { MinLength, MaxLength, IsDateString, IsEnum, IsInt, IsString, IsArray } from 'class-validator';
+import { IsEnum, IsInt, IsString, IsArray, Length } from 'class-validator';
 
 import { Genre } from '../../../types/genre.enum.js';
 import { User } from '../../../types/user.type.js';
+import { CreateFilmDtoValidaton } from '../film-dto.validation.js';
 
 export default class CreateFilmDto {
-  @IsString({message: 'title is required'})
-  @MinLength(2, {message: 'Minimum title length must be 2'})
-  @MaxLength(100, {message: 'Maximum title length must be 100'})
+  @IsString({message: CreateFilmDtoValidaton.title.Message})
+  @Length(
+    CreateFilmDtoValidaton.title.Length!.min,
+    CreateFilmDtoValidaton.title.Length!.max,
+    {message: CreateFilmDtoValidaton.title.Length!.message})
   public title!: string;
 
-  @IsString({message: 'description is required'})
-  @MinLength(20, {message: 'Minimum description length must be 20'})
-  @MaxLength(1024, {message: 'Maximum description length must be 1024'})
+  @IsString({message: CreateFilmDtoValidaton.description.Message})
+  @Length(
+    CreateFilmDtoValidaton.description.Length!.min,
+    CreateFilmDtoValidaton.description.Length!.max,
+    {message: CreateFilmDtoValidaton.description.Length!.message})
   public description!: string;
 
-  @IsDateString({}, {message: 'publicationDate must be valid ISO date'})
   public publicationDate!: Date;
 
-  @IsEnum(Genre, {message: 'type must be comedy, crime, documentary, drama, horror, family, romance, scifi, thriller'})
+  @IsEnum(Genre, {message: CreateFilmDtoValidaton.genre.Message})
   public genre!: Genre;
 
-  @IsInt({message: 'year must be an integer'})
+  @IsInt({message: CreateFilmDtoValidaton.year.Message})
   public year!: number;
 
-  //@IsInt({message: 'rating must be an integer'})
   public rating!: number;
 
-  @IsString({message: 'previewVideoLink is required'})
+  @IsString({message: CreateFilmDtoValidaton.previewVideoLink.Message})
   public previewVideoLink!: string;
 
-  @IsString({message: 'videoLink is required'})
+  @IsString({message: CreateFilmDtoValidaton.videoLink.Message})
   public videoLink!: string;
 
-  @IsArray({message: 'field actors must be an array'})
+  @IsArray({message: CreateFilmDtoValidaton.actors.Message})
   public actors!: string[];
 
-  @IsString({message: 'director is required'})
-  @MinLength(2, {message: 'Minimum director length must be 2'})
-  @MaxLength(50, {message: 'Maximum director length must be 50'})
+  @IsString({message: CreateFilmDtoValidaton.director.Message})
+  @Length(
+    CreateFilmDtoValidaton.director.Length!.min,
+    CreateFilmDtoValidaton.director.Length!.max,
+    {message: CreateFilmDtoValidaton.director.Length!.message})
   public director!: string;
 
-  @IsInt({message: 'runTime must be an integer'})
+  @IsInt({message: CreateFilmDtoValidaton.runTime.Message})
   public runTime!: number;
 
-  //@IsInt()
   public commentCount!: number;
 
   public user!: User;
 
-  @IsString({message: 'posterImage is required'})
+  @IsString({message: CreateFilmDtoValidaton.posterImage.Message})
   public posterImage!: string;
 
-  @IsString({message: 'backgroundImage is required'})
+  @IsString({message: CreateFilmDtoValidaton.backgroundImage.Message})
   public backgroundImage!: string;
 
-  @IsString({message: 'backgroundColor is required'})
+  @IsString({message: CreateFilmDtoValidaton.backgroundColor.Message})
   public backgroundColor!: string;
 }

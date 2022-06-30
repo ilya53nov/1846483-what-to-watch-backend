@@ -23,5 +23,4 @@ export default class GenreService implements GenreServiceInterface {
       .populate([USER])
       .exec();
   }
-
 }

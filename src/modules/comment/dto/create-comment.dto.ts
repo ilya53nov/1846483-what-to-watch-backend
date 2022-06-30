@@ -1,13 +1,22 @@
 import { IsString, Length, IsInt, Min, Max } from 'class-validator';
 
+import { CreateCommentDtoValidation } from '../comment-dto.validation.js';
+
 export default class CreateCommentDto {
-  @IsString({message: 'text is required'})
-  @Length(5, 1024, {message: 'Min length is 5, max is 1024'})
+  @IsString({message: CreateCommentDtoValidation.text.Message})
+  @Length(
+    CreateCommentDtoValidation.text.Length!.min,
+    CreateCommentDtoValidation.text.Length!.max,
+    {message: CreateCommentDtoValidation.text.Length!.message})
   public text!: string;
 
-  @IsInt({message: 'rating is required'})
-  @Min(1, {message: 'Min value is 1'})
-  @Max(10, {message: 'Max value is 10'})
+  @IsInt({message: CreateCommentDtoValidation.rating.Message})
+  @Min(
+    CreateCommentDtoValidation.rating.Min!.value,
+    {message: CreateCommentDtoValidation.rating.Min!.message})
+  @Max(
+    CreateCommentDtoValidation.rating.Max!.value,
+    {message: CreateCommentDtoValidation.rating.Max!.message})
   public rating!: number;
 
   public filmId!: string;

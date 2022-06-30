@@ -9,6 +9,8 @@ import { FilmValidation } from '../../validation/film.validation.js';
 
 const { prop, modelOptions } = typegoose;
 
+const DEFAULT_RATING_SUM_ = 0;
+
 export interface FilmEntity extends Base {}
 
 @modelOptions({
@@ -27,7 +29,7 @@ export class FilmEntity extends TimeStamps implements Film {
     this.genre = data.genre;
     this.year = data.year;
     this.rating = data.rating;
-    this._ratingSum = 0;
+    this._ratingSum = DEFAULT_RATING_SUM_;
     this.previewVideoLink = data.previewVideoLink;
     this.videoLink = data.videoLink;
     this.actors = data.actors;

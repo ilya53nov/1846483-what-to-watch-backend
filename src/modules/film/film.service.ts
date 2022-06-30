@@ -90,7 +90,6 @@ export default class FilmService implements FilmServiceInterface {
       }}).exec();
   }
 
-  // TODO
   public async updateRating(id: string, rating: number): Promise<DocumentType<FilmEntity> | null> {
     const findedFields = await this.filmModel.findById(id, {_ratingSum: 1, commentCount:1, _id: 0}).exec();
 
@@ -111,7 +110,5 @@ export default class FilmService implements FilmServiceInterface {
           '$set': {rating: averageRating},
         }
       ).exec();
-
   }
-
 }

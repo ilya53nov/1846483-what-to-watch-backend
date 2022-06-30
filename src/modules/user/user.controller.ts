@@ -6,11 +6,14 @@ import { ConfigInterface } from '../../common/config/config.interface.js';
 import { Controller } from '../../common/controller/controller.js';
 import HttpError from '../../common/errors/http-error.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
+import { MiddlewareErrorMessage } from '../../common/middlewares/middleware-error-message.enum.js';
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { Component } from '../../types/component.types.js';
+import { ControllerRoute } from '../../types/controller-route.enum.js';
 import { ModuleController } from '../../types/controller.enum.js';
+import { FieldMongoDB } from '../../types/field-mongodb.enum.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { createJWT, fillDTO } from '../../utils/common.js';
 import CreateUserDto from './dto/create-user.dto.js';
@@ -20,7 +23,7 @@ import LoginUserDto from './dto/login-user.dto.js';
 import UploadUserAvatarDto from './dto/upload-user-avatar.dto.js';
 import UserDto from './dto/user.dto.js';
 import { UserServiceInterface } from './user-service.interface.js';
-import { JWT_ALGORITM } from './user.constant.js';
+import { AVATAR, JWT_ALGORITM } from './user.constant.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -33,7 +36,7 @@ export default class UserController extends Controller {
     this.logger.info('Register routes for UserController...');
 
     this.addRoute({
-      path: '/register',
+      path: ControllerRoute.Register,
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
@@ -42,7 +45,7 @@ export default class UserController extends Controller {
     });
 
     this.addRoute({
-      path: '/login',
+      path: ControllerRoute.Login,
       method: HttpMethod.Post,
       handler: this.login,
       middlewares: [
@@ -51,18 +54,18 @@ export default class UserController extends Controller {
     });
 
     this.addRoute({
-      path: '/login',
+      path: ControllerRoute.Login,
       method: HttpMethod.Get,
       handler: this.checkAuthenticate
     });
 
     this.addRoute({
-      path: '/:userId/avatar',
+      path: ControllerRoute.Avatar,
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
-        new ValidateObjectIdMiddleware('userId'),
-        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.UserId),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), AVATAR),
       ]
     });
   }
@@ -98,7 +101,7 @@ export default class UserController extends Controller {
     if (!user) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
-        'Unauthorized',
+        MiddlewareErrorMessage.PrivateRoute,
         ModuleController.User
       );
     }
@@ -127,7 +130,5 @@ export default class UserController extends Controller {
     if (user) {
       this.ok(res, fillDTO(UserDto, user));
     }
-
-
   }
 }

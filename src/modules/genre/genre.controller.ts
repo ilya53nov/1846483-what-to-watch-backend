@@ -11,6 +11,7 @@ import { fillDTO } from '../../utils/common.js';
 import SummaryFilmDto from '../film/dto/summary-film.dto.js';
 import { GenreServiceInterface } from './genre-service.interface.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import { ControllerRoute } from '../../types/controller-route.enum.js';
 
 type ParamsGetFilm = {
   genre: string;
@@ -27,7 +28,7 @@ export default class GenreController extends Controller {
     this.logger.info('Register routes for GenreController...');
 
     this.addRoute({
-      path: '/:genre/films',
+      path: ControllerRoute.Genre,
       method: HttpMethod.Get,
       handler: this.getFilmsGenre
     });
@@ -43,5 +44,4 @@ export default class GenreController extends Controller {
 
     this.ok(res, fillDTO(SummaryFilmDto, films));
   }
-
 }

@@ -15,6 +15,9 @@ import { FilmServiceInterface } from './film-service.interface.js';
 import SummaryFilmDto from './dto/summary-film.dto.js';
 import { fillDTO } from '../../utils/common.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import { FieldMongoDB } from '../../types/field-mongodb.enum.js';
+import { Entity } from '../../types/entity.enum.js';
+import { ControllerRoute } from '../../types/controller-route.enum.js';
 
 @injectable()
 export default class FavoriteFilmController extends Controller {
@@ -29,7 +32,7 @@ export default class FavoriteFilmController extends Controller {
     this.logger.info('Register routes for FavoriteFilmController...');
 
     this.addRoute({
-      path: '/',
+      path: ControllerRoute.Main,
       method: HttpMethod.Get,
       handler: this.getFavoriteFilms,
       middlewares: [
@@ -38,24 +41,24 @@ export default class FavoriteFilmController extends Controller {
     });
 
     this.addRoute({
-      path: '/:filmId',
+      path: ControllerRoute.FilmId,
       method: HttpMethod.Post,
       handler: this.addToFavorite,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.FilmId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.FilmId),
       ]
     });
 
     this.addRoute({
-      path: '/:filmId',
+      path: ControllerRoute.FilmId,
       method: HttpMethod.Delete,
       handler: this.deleteFromFavorite,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('filmId'),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new ValidateObjectIdMiddleware(FieldMongoDB.FilmId),
+        new DocumentExistsMiddleware(this.filmService, Entity.Film, FieldMongoDB.FilmId),
       ]
     });
   }

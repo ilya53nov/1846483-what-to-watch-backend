@@ -1,14 +1,22 @@
 import { IsEmail, IsString, Length } from 'class-validator';
 
+import { CreateUserDtoValidation } from '../user-dto.validation.js';
+
 export default class CreateUserDto {
-  @IsEmail({}, {message: 'email must be valid addres'})
+  @IsEmail({}, {message: CreateUserDtoValidation.email.Message})
   public email!: string;
 
-  @IsString({message: 'name is required'})
-  @Length(1, 15, {message: 'Min length is 1, max is 15'})
+  @IsString({message: CreateUserDtoValidation.name.Message})
+  @Length(
+    CreateUserDtoValidation.name.Length!.min,
+    CreateUserDtoValidation.name.Length!.max,
+    {message: CreateUserDtoValidation.name.Length!.message})
   public name!: string;
 
-  @IsString({message: 'password is required'})
-  @Length(6, 12, {message: 'Min length for password is 6, max is 12'})
+  @IsString({message: CreateUserDtoValidation.password.Message})
+  @Length(
+    CreateUserDtoValidation.password.Length!.min,
+    CreateUserDtoValidation.password.Length!.max,
+    {message: CreateUserDtoValidation.password.Length!.message})
   public password!: string;
 }
