@@ -59,11 +59,7 @@ export default class FilmService implements FilmServiceInterface {
   public async isFilmByUser(filmId: string, userId: string): Promise<boolean> {
     const finded = await this.filmModel.find({_id: filmId, user: userId}).exec();
 
-    if (finded.length > 0) {
-      return true;
-    }
-
-    return false;
+    return finded.length > 0;
   }
 
   public async deleteById(id: string): Promise<DocumentType<FilmEntity> | null> {

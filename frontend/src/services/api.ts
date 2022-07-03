@@ -5,6 +5,7 @@ import { setToDefault } from '../store/user-data/user-data';
 
 const BACKEND_URL = '/';
 const REQUEST_TIMEOUT = 5000;
+const UNAUTHORIZED_STATUS_CODE = 401;
 
 export const createAPI = () => {
   const api = axios.create({
@@ -28,7 +29,7 @@ export const createAPI = () => {
     (error: AxiosError) => {
       const { response } = error;
 
-      if (response?.status === 401) {
+      if (response?.status === UNAUTHORIZED_STATUS_CODE) {
         store.dispatch(setToDefault());
       }
 
